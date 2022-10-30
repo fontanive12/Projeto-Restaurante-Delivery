@@ -9,6 +9,7 @@ export const defaultTheme = {
   fontColor: "black",
   background: "#fff",
   white: "#fff",
+  black: "#000",
   borderColor: "#333",
   placeholder: "#DCDCDC",
 

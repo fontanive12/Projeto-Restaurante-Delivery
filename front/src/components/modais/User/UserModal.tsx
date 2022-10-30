@@ -5,10 +5,11 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 
-import { Button } from "../Button/button";
+import { Button } from "../../Button/button";
 import { DivContainer, ItemsFormContainer } from "./UserModal.styles";
 import { FormProvider, useForm } from "react-hook-form";
-import { Input } from "../Input/input";
+import { Input } from "../../Input/input";
+import { idText } from "typescript";
 
 interface UserModalProps {
   closeModal: Function;
@@ -79,6 +80,7 @@ export function UserModal({ closeModal, userData }: UserModalProps) {
 
         toast.success("Usuário Editado com sucesso");
       } else {
+        console.log(data);
         await axios.post("http://localhost:3000/users", {
           name: data.name,
           email: data.email,
@@ -90,11 +92,30 @@ export function UserModal({ closeModal, userData }: UserModalProps) {
         toast.success("Usuário Criado com sucesso");
       }
 
-      closeModal();
+      // closeModal();
     } catch (error) {
       toast.error("Erro ao criar usuário");
     }
   }
+
+  
+
+  // async function handleDeleteUser(data: User) {
+  //   try {
+  //     if (userData) {
+  //       const element = document.querySelector('#delete-request')
+  //       await axios.delete(`http://localhost:3000/users/${userData.id}`, {
+  //         element.innerHTML = 'Delete successful'
+  //       });
+
+  //       toast.success("Usuário deletado com sucesso");
+  //     }
+  //   }
+  //   catch (error) {
+  //       toast.error("Erro ao criar usuário");
+  //     }
+  // }
+
 
   return (
     <DivContainer>
@@ -112,7 +133,7 @@ export function UserModal({ closeModal, userData }: UserModalProps) {
           <Input label="Idade" id="age" errorMessage="" width={400} height={20} />
           <Input label="Sexo" id="sex" errorMessage={errors.sex?.message} width={400} height={20} />
 
-          <Button label="Enviar Dados" />
+          <Button label="Enviar" />
         </form>
       </FormProvider>
     </DivContainer>

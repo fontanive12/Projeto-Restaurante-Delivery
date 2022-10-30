@@ -11,6 +11,7 @@ export const darkTheme = {
   borderColor: "#fff",
   placeholder: "#DCDCDC",
   white: "#fff",
+  black: "#000",
 
   "gray-100": "#A0ACB3",
 };

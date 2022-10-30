@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import { Request, Response, NextFunction } from 'express';
 import UserModel from '../models/User';
+var nodemailer = require('nodemailer');
 
 class UsersController {
 
@@ -59,12 +60,47 @@ class UsersController {
     try {
       const data = await this._validateData(req.body);
       const user = await UserModel.create(data);
+
+      this.criarEmail(user.email, user.name);
+
       res.json(user);
     }
     catch (error: any) {
       res.status(400).json({ error: error.message + "" });
     }
   }
+
+  criarEmail = (email: any, name: any) => {
+
+    let email_user = 'fontanive12@gmail.com';
+    let email_pass = 'fran458932';
+    let email_to = email;
+    let email_subject = 'Obrigada por se cadastrar';
+    let email_html = `Bem-vindo ${name}`;
+
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: email_user,
+        pass: email_pass
+      }
+    });
+
+    var mailOptions = {
+      from: email_user,
+      to: email_to,
+      subject: email_subject,
+      html: email_html
+    };
+
+    transporter.sendMail(mailOptions, function (error: any, info: any) {
+      if (error) {
+        console.log('Erro ao enviar e-mail: ' + error)
+      } else {
+        console.log('E-mail enviado: ' + info.response);
+      }
+    })
+  };
 
   show = async (req: Request, res: Response, next: NextFunction) => {
     const user = await UserModel.findByPk(req.params.userId);

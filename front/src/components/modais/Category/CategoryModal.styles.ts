@@ -9,18 +9,21 @@ export const DivContainer = styled.div`
     align-items: center;
     justify-content: center;
     gap: 1rem;
+    
   }
 `;
 
 export const ItemsFormContainer = styled.div`
   display: flex;
   flex-direction: column;
+  
 
   select,
   input {
     width: 17rem;
     height: 3rem;
     border-radius: 8px;
+    
   }
 `;
 
@@ -33,5 +36,5 @@ export const ButtonContainer = styled.button`
   border-radius: 8px;
 
   background: ${(props) => props.theme.primary};
-  color: ${(props) => props.theme.white};
+  color: ${(props) => props.theme.black};
 `;

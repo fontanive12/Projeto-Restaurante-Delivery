@@ -47,9 +47,12 @@ export function Login() {
 
     if (data.email === "fontanive12@gmail.com" && data.password === "123") {
       navigate("/home");
-    } else {
+    } else if (login){
+      navigate("/home");   
       // setErros( error("Invalid login"));
-      reset()
+    } else {
+      setErrorLogin("Login e/ou senha incorreto(s)");
+      // reset()
     }
   }
 

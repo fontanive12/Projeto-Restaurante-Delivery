@@ -4,27 +4,27 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { UserModal, User } from "../../components/modais/UserModal";
+import { CategoryModal, Category } from "../../components/modais/Category/CategoryModal";
 import { Menu } from "../../components/Menu/menu";
 import { MainContainer } from "./categories.styles";
 import { Button } from "../../components/Button/button";
-import { Card } from "../../components/UserCards/Card";
+import { Card } from "../../components/CategoryCards/Card";
 
-export function UserList() {
+export function CategoryList() {
   const MySwal = withReactContent(Swal);
-  const [userList, setUserList] = useState<User[]>([]);
+  const [categoryList, setCategoryList] = useState<Category[]>([]);
   const [closeModal, setCloseModal] = useState(false);
 
   useEffect(() => {
-    axios.get<User[]>("http://localhost:3000/users").then((response) => {
-      setUserList(response.data);
+    axios.get<Category[]>("http://localhost:3000/categories").then((response) => {
+      setCategoryList(response.data);
     });
   }, [closeModal]);
 
   const showSwal = () => {
     MySwal.fire({
-      title: <strong>Criar usuário</strong>,
-      html: <UserModal closeModal={MySwal.close} />,
+      title: <strong>Criar categoria</strong>,
+      html: <CategoryModal closeModal={MySwal.close} />,
       showConfirmButton: false,
     }).then(() => setCloseModal(true));
   };
@@ -33,12 +33,12 @@ export function UserList() {
     <div>
       <Menu />
 
-      <Header label="Usuários" />
+      <Header label="Categorias" />
 
       <MainContainer>
-        <Button label="Criar Usuário" onClick={showSwal} />
-        {userList.map((user) => {
-          return <Card data={user} />;
+        <Button label="Criar categoria" onClick={showSwal} />
+        {categoryList.map((category) => {
+          return <Card data={category} />;
         })}
       </MainContainer>
     </div>

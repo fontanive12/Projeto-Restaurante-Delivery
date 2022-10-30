@@ -26,7 +26,7 @@ class CategoriesController {
 
   update = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const id = req.params.categoryId;
+      const id: any = req.params.categoryId;
       const data = await this._validateData(req.body);
       await CategoryModel.update(data, {
         where: {
@@ -50,7 +50,7 @@ class CategoriesController {
   }
 
   _validateData = async (data: any) => {
-    const attributes = ['name'];
+    const attributes = ['description'];
     const category: any = {};
 
     for (const attribute of attributes) {

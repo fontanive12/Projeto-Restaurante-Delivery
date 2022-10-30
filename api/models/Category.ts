@@ -13,7 +13,7 @@ Category.init({
     allowNull: false,
     primaryKey: true
   },
-  name: {
+  description: {
     type: DataTypes.STRING,
     allowNull: false
   }

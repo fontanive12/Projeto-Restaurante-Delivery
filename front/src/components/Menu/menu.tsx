@@ -15,7 +15,24 @@ export function Menu() {
         <NavLinkContainer>
           <NavbarLink to="/users">
             <User size={32} />
+            <p>Usuários</p>
           </NavbarLink>
+
+          <NavbarLink to="/categories">
+            <User size={32} />
+            <p>Categorias</p>
+          </NavbarLink>
+
+          <NavbarLink to="/states">
+            <User size={32} />
+            <p>Estados</p>
+          </NavbarLink>
+
+          <NavbarLink to="/cities">
+            <User size={32} />
+            <p>Cidades</p>
+          </NavbarLink>
+
         </NavLinkContainer>
       </ContentContainer>
     </MenuContainer>
@@ -137,3 +154,4 @@ export function Menu() {
 // }
 
 // export default Sidebar
+

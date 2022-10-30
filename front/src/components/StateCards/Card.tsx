@@ -6,12 +6,12 @@ import { Pencil, Trash } from "phosphor-react";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
-import { User, UserModal } from "../modais/User/UserModal";
+import { State, StateModal } from "../modais/State/StateModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 interface CardProps {
-  data: User;
+  data: State;
 }
 
 export function Card({ data }: CardProps) {
@@ -20,8 +20,8 @@ export function Card({ data }: CardProps) {
 
   const showSwal = () => {
     MySwal.fire({
-      title: <strong>Editar Usuário</strong>,
-      html: <UserModal closeModal={MySwal.close} userData={data} />,
+      title: <strong>Editar estado</strong>,
+      html: <StateModal closeModal={MySwal.close} stateData={data} />,
       showConfirmButton: false,
     }).then(() => window.location.reload());
   };
@@ -38,18 +38,16 @@ export function Card({ data }: CardProps) {
       cancelButtonText: 'Cancelar'
     }).then(async (result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:3000/users/` + id)
+        axios.delete(`http://localhost:3000/states/` + id)
           .then((response) => {
                 window.location.reload()
                 // navigate("/categories")
           }, (error) => {
-            Swal.fire(`Error ao deletar usuário: ${error.response.data.error} `);
+            Swal.fire(`Error ao deletar estado: ${error.response.data.error} `);
           });
       };
     });
   };
-
-
 
   return (
     <DivContainer>
@@ -57,9 +55,7 @@ export function Card({ data }: CardProps) {
         <strong>{data.id}</strong>
 
         <CardInfo title="Nome" data={data.name} />
-        <CardInfo title="Email" data={data.email} />
-        <CardInfo title="Idade" data={data.age} />
-        <CardInfo title="Sexo" data={data.sex} />
+        <CardInfo title="Província" data={data.province} />
 
         <Edit title="Editar" onClick={showSwal}>
           {<Pencil size={32} />}

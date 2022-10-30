@@ -1,5 +1,3 @@
-// import styled from "styled-components";
-
 export const NavbarContainer = styled.main`
     height: 100vh;
 `
@@ -19,7 +17,7 @@ export const MenuContainer = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-  width: 6rem;
+  width: 8rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -50,3 +48,4 @@ export const NavbarLink = styled(NavLink)`
   }
   text-decoration: none;
 `;
+

@@ -10,7 +10,7 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-export function Button({
+export function Button({  
   variant = "primary",
   width = 350,
   height = 60,

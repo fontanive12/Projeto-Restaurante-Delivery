@@ -12,7 +12,7 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
   font-size: 18px;
-
+  cursor: pointer;
   border-radius: 10px;
 
   color: ${(props) => props.theme.white};

@@ -1,13 +1,13 @@
 import { FormEvent, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import { User } from "phosphor-react";
-import { ShoppingCartSimple } from "phosphor-react";
+import { User, ShoppingCartSimple, List } from "phosphor-react";
 import { NavbarLink } from "../Menu/menu.styles";
 import {
   ContentContainer,
   SidebarContainer,
   UserContainer,
   UserData,
+  Title
 } from "./header.styles";
 import { Button } from "../Button/button";
 
@@ -21,7 +21,10 @@ export function Header({ label }: SidebarProps) {
   return (
     <SidebarContainer>
       <ContentContainer>
-        <h1>{label}</h1>
+        <Title>
+          {/* <List size={32} /> */}
+          <h1>{label}</h1>
+        </Title>
         <UserContainer>
           <UserData>
             <User size={32} />
@@ -33,12 +36,14 @@ export function Header({ label }: SidebarProps) {
           {/* <a href="../pages/Shop/shop">
             <ShoppingCartSimple size={40} />
           </a> */}
-          {/* <Button width={100} height={50} label="Sair" onClick={logout} /> */}
+          <Button width={80} height={40} label="Sair" onClick={logout} />
         </UserContainer>
       </ContentContainer>
     </SidebarContainer>
   );
 }
+
+
 // import { FormEvent, useContext, useState } from "react";
 // import { AuthContext } from "../../contexts/AuthContext";
 // import { User } from "phosphor-react";
@@ -60,7 +65,7 @@ export function Header({ label }: SidebarProps) {
 
 // // const Header({ label }: SidebarProps) {
 
-//   const Header = () => {
+//   const Header = ({ label }: SidebarProps) => {
 
 //   const [menu, setMenu] = useState(false);
 
@@ -69,6 +74,7 @@ export function Header({ label }: SidebarProps) {
 //   const { user, logout } = useContext(AuthContext);
 
 //   return (
+    
 //     <SidebarContainer>
 //       <ContentContainer>
 //         <FaBars onClick={showMenu} size={36}/>
@@ -85,4 +91,24 @@ export function Header({ label }: SidebarProps) {
 //   );
 // }
 
-// export default 
+// export default Header;
+
+// import React, { useState } from 'react'
+// import { Container } from './header.styles'
+// import { FaBars } from 'react-icons/fa'
+// import * as menu from '../Menu/sidebar'
+
+// const Header = () => {
+//   const [sidebar, setSidebar] = useState(false)
+
+//   const showSiderbar = () => setSidebar(!sidebar)
+
+//   return (
+//     <Container>
+//       <FaBars onClick={showSiderbar} />
+//       {sidebar && <menu.Menu active={setSidebar} />}
+//     </Container>
+//   )
+// }
+
+// export default Header

@@ -4,8 +4,9 @@ import db from '../db';
 class Admin extends Model {
   declare id: number;
   declare name: string;
-  declare age: string;
-  declare sex: string;
+  declare birth_date: Date;
+  declare genre: string;
+  declare position: string;
   declare email: string;
 
   static locateAdmin = async (email: string, password: string) => {

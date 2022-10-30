@@ -11,7 +11,7 @@ export const DivContainer = styled.div`
     flex: 1;
     font-weight: 700;
     font-size: 1.25rem;
-    /* margin-left: 3rem; */
+    margin-left: 3rem;
     color: ${(props) => props.theme.black};
   }
 `;
