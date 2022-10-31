@@ -49,9 +49,9 @@ export function Home() {
 
 
         <NavLinkContainer>
-          <NavbarLink to="/cities">
+          <NavbarLink to="/payments">
             <NavbarItem>
-              <h2>Cidades</h2>
+              <h2>Formas de <br/>pagameno</h2>
               <User size={40} />
             </NavbarItem>
           </NavbarLink>

@@ -2,6 +2,7 @@ import { Op } from 'sequelize';
 import { Request, Response, NextFunction } from 'express';
 import CityModel from '../models/City';
 import StateModel from '../models/State';
+import LogModel from '../models/Log';
 
 class CitiesController {
 
@@ -33,6 +34,9 @@ class CitiesController {
     try {
       const data = await this._validateData(req.body);
       const city = await CityModel.create(data);
+      LogModel.create({
+        description: `City ${data.name} created.`
+      })
       res.json(city);
     }
     catch (error: any) {
@@ -56,6 +60,9 @@ class CitiesController {
           }
         });
 
+      LogModel.create({
+        description: `City ${data.name} updated.`
+      })
       res.json(await CityModel.findByPk(id));
     }
     catch (error: any) {
@@ -70,6 +77,9 @@ class CitiesController {
           id: req.params.cityId
         }
       });
+      LogModel.create({
+        description: `City deleted.`
+      })
     res.json({});
   }
 

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import CategoryModel from '../models/Category';
+import LogModel from '../models/Log';
 
 class CategoriesController {
 
@@ -12,6 +13,9 @@ class CategoriesController {
     try {
       const data = await this._validateData(req.body);
       const category = await CategoryModel.create(data);
+      LogModel.create({
+        description: `Category ${data.description} created.`
+      })
       res.json(category);
     }
     catch (error: any) {
@@ -33,6 +37,9 @@ class CategoriesController {
           id: id
         }
       });
+      LogModel.create({
+        description: `Category ${data.description} updated.`
+      })
       res.json(await CategoryModel.findByPk(id));
     }
     catch (error: any) {
@@ -46,6 +53,9 @@ class CategoriesController {
         id: req.params.categoryId
       }
     });
+    LogModel.create({
+      description: `Category deleted.`
+    })
     res.json({});
   }
 

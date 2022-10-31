@@ -7,7 +7,7 @@ import { UserList } from "../pages/Users/User";
 import { CategoryList } from "../pages/Categories/categories";
 import { StateList } from "../pages/States/State";
 import { CityList } from "../pages/Cities/City";
-import { ProductList } from "../pages/Cities/City";
+import { PaymentList } from "../pages/Payments/payment";
 import { PrivateRoute } from "./PrivateRoute";
 
 export function Router() {
@@ -21,6 +21,7 @@ export function Router() {
         <Route path="/users" element={<UserList />} />
         <Route path="/states" element={<StateList />} />
         <Route path="/cities" element={<CityList />} />
+        <Route path="/payments" element={<PaymentList />} />
       </Route>
 
       <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />

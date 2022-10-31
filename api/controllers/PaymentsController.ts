@@ -1,18 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
-import StateModel from '../models/Category';
+import PaymentsModel from '../models/Payment';
+import LogModel from '../models/Log';
 
-class StatesController {
+class PaymentsController {
 
   index = async (req: Request, res: Response, next: NextFunction) => {
-    const states = await StateModel.findAll({});
-    res.json(states);
+    const payments = await PaymentsModel.findAll({});
+    res.json(payments);
   }
 
   create = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = await this._validateData(req.body);
-      const state = await StateModel.create(data);
-      res.json(state);
+      const payment = await PaymentsModel.create(data);
+      LogModel.create({
+        description: `Payment form ${data.form} created.`
+      })
+      res.json(payment);
     }
     catch (error: any) {
       res.status(400).json({ error: error.message });
@@ -20,20 +24,23 @@ class StatesController {
   }
 
   show = async (req: Request, res: Response, next: NextFunction) => {
-    const state = await StateModel.findByPk(req.params.stateId);
-    res.json(state);
+    const payment = await PaymentsModel.findByPk(req.params.paymentId);
+    res.json(payment);
   }
 
   update = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const id: any = req.params.stateId;
+      const id: any = req.params.paymentId;
       const data = await this._validateData(req.body);
-      await StateModel.update(data, {
+      await PaymentsModel.update(data, {
         where: {
           id: id
         }
       });
-      res.json(await StateModel.findByPk(id));
+      LogModel.create({
+        description: `Payment form ${data.form} updated.`
+      })
+      res.json(await PaymentsModel.findByPk(id));
     }
     catch (error: any) {
       res.status(400).json({ error: error.message });
@@ -41,29 +48,32 @@ class StatesController {
   }
 
   delete = async (req: Request, res: Response, next: NextFunction) => {
-    await StateModel.destroy({
+    await PaymentsModel.destroy({
       where: {
-        id: req.params.stateId
+        id: req.params.paymentId
       }
     });
+    LogModel.create({
+      description: `Payment deleted.`
+    })
     res.json({});
   }
 
   _validateData = async (data: any) => {
-    const attributes = ['description'];
-    const state: any = {};
+    const attributes = ['form'];
+    const payment: any = {};
 
     for (const attribute of attributes) {
       if (!data[attribute]) {
         throw new Error(`The attribute "${attribute}" is required.`);
       }
 
-      state[attribute] = data[attribute];
+      payment[attribute] = data[attribute];
     }
 
-    return state;
+    return payment;
   }
 
 }
 
-export default new StatesController();
+export default new PaymentsController();

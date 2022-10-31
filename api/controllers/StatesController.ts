@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import StateModel from '../models/State';
+import LogModel from '../models/Log';
 
 class StatesController {
 
@@ -12,6 +13,9 @@ class StatesController {
     try {
       const data = await this._validateData(req.body);
       const state = await StateModel.create(data);
+      LogModel.create({
+        description: `State ${data.name} created.`
+      })
       res.json(state);
     }
     catch (error: any) {
@@ -33,6 +37,10 @@ class StatesController {
           id: id
         }
       });
+
+      LogModel.create({
+        description: `State ${data.name} updated.`
+      })
       res.json(await StateModel.findByPk(id));
     }
     catch (error: any) {
@@ -46,6 +54,9 @@ class StatesController {
         id: req.params.stateId
       }
     });
+    LogModel.create({
+      description: `State deleted.`
+    })
     res.json({});
   }
 

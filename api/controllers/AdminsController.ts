@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import { Request, Response, NextFunction } from 'express';
 import AdminModel from '../models/Admin';
+import LogModel from '../models/Log';
 
 class AdminsController {
 
@@ -59,6 +60,9 @@ class AdminsController {
     try {
       const data = await this._validateData(req.body);
       const admin = await AdminModel.create(data);
+      LogModel.create({
+        description: `Admin ${data.name} created.`
+      })
       res.json(admin);
     }
     catch (error: any) {
@@ -80,6 +84,9 @@ class AdminsController {
           id: id
         }
       });
+      LogModel.create({
+        description: `Admin ${data.name} updated.`
+      })
       res.json(await AdminModel.findByPk(id));
     }
     catch (error: any) {
@@ -93,6 +100,9 @@ class AdminsController {
         id: req.params.AdminId
       }
     });
+    LogModel.create({
+      description: `Admin deleted.`
+    })
     res.json({});
   }
 

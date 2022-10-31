@@ -6,6 +6,8 @@ import routerStates from './states';
 import routerCities from './cities';
 import routerCategories from './categories';
 import routerProducts from './products';
+import routerPayments from './payments';
+import routerLogs from './logs';
 import routerAuth from './auth';
 
 const router = express.Router();
@@ -50,5 +52,7 @@ router.use(routerCities);
 router.use(routerCategories);
 router.use(routerAuth);
 router.use(routerProducts);
+router.use(routerPayments);
+router.use(routerLogs);
 
 export default router;

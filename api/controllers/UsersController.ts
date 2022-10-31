@@ -1,8 +1,9 @@
 import { Op } from 'sequelize';
 import { Request, Response, NextFunction } from 'express';
-import UserModel from '../models/User';
 import nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import UserModel from '../models/User';
+import LogModel from '../models/Log';
 
 class UsersController {
 
@@ -61,7 +62,9 @@ class UsersController {
     try {
       const data = await this._validateData(req.body);
       const user = await UserModel.create(data);
-
+      LogModel.create({
+        description: `User ${data.name} created.`
+      })
       res.json(user);
     }
     catch (error: any) {
@@ -103,40 +106,6 @@ class UsersController {
     })
   };
 
-
-
-  // _sendMail = async (req: Request, res: Response, next: NextFunction) => {
-  //   let user = 'fontanive12@gmail.com';
-  //   let password = 'fran458932';
-  //   let to = req.params.email;
-  //   let subject = 'Finalmenete!';
-  //   let content = 'You have been registered in the RHPlus system!';
-  //   let html = 'Só um e-mail de <i>exemplo</i>, com <b>html</b>, e acentuação.';
-
-  //   var transporter = nodemailer.createTransport({
-  //     service: 'gmail',
-  //     auth: {
-  //       user: user,
-  //       pass: password
-  //     }
-  //   });
-
-  //   var mailOptions = {
-  //     from: user,
-  //     to: to,
-  //     subject: subject,
-  //     text: content
-  //   }
-
-  //   transporter.sendMail(mailOptions, (error: Error | null, info: SMTPTransport.SentMessageInfo) => {
-  //     if (error) {
-  //       console.log('Erro on sendMail:' + error);
-  //     } else {
-  //       console.log('Mail sent!');
-  //     }
-  //   });
-  // }
-
   show = async (req: Request, res: Response, next: NextFunction) => {
     const user = await UserModel.findByPk(req.params.userId);
     res.json(user);
@@ -151,6 +120,9 @@ class UsersController {
           id: id
         }
       });
+      LogModel.create({
+        description: `User ${data.name} updated.`
+      })
       res.json(await UserModel.findByPk(id));
     }
     catch (error: any) {
@@ -164,10 +136,11 @@ class UsersController {
         id: req.params.userId
       }
     });
+    LogModel.create({
+      description: `User deleted.`
+    })
     res.json({});
   }
-
-
 
   _validateData = async (data: any, id?: any) => {
     const attributes = ['name', 'age', 'sex', 'email', 'password'];
