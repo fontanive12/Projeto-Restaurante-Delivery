@@ -1,4 +1,4 @@
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -10,6 +10,7 @@ import { DivContainer, ItemsFormContainer } from "./UserModal.styles";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "../../Input/input";
 import { idText } from "typescript";
+import { Select } from "../../Select/Select";
 
 interface UserModalProps {
   closeModal: Function;
@@ -25,6 +26,8 @@ const newUserValidationSchema = zod.object({
   password: zod.string().min(5, "Sua senha deve conter 5 digitos"),
   age: zod.any(),
   sex: zod.string(),
+  cityId: zod.string(),
+  stateId: zod.string(),
 });
 
 export type User = {
@@ -34,6 +37,8 @@ export type User = {
   password: string;
   age: number;
   sex: string;
+  cityId: string;
+  stateId: string;
 };
 
 export function UserModal({ closeModal, userData }: UserModalProps) {
@@ -45,12 +50,20 @@ export function UserModal({ closeModal, userData }: UserModalProps) {
       password: "",
       age: undefined,
       sex: "",
+      cityId: undefined,
+      stateId: undefined,
     },
   });
 
-  const { handleSubmit, formState, setValue } = methods;
+  const { handleSubmit, formState, setValue, getValues, watch } = methods;
 
   console.log(formState);
+
+  const [cities, setCities] = useState(undefined);
+  const [states, setState] = useState(undefined);
+
+  const stateId = watch("stateId");
+  watch("cityId");
 
   useEffect(() => {
     if (userData) {
@@ -59,8 +72,31 @@ export function UserModal({ closeModal, userData }: UserModalProps) {
       setValue("password", userData.password);
       setValue("age", userData.age);
       setValue("sex", userData.sex);
+      setValue("cityId", String(userData.cityId));
+      setValue("stateId", String(userData.stateId));
     }
   }, [userData]);
+
+  useEffect(() => {
+    async function getData() {
+      await axios.get(`http://localhost:3000/states`).then((response) => {
+        setState(response.data);
+      });
+    }
+
+    getData();
+  }, []);
+
+  useEffect(() => {
+    async function getData() {
+      await axios
+        .get(`http://localhost:3000/cities?id=${stateId}`)
+        .then((response) => {
+          setCities(response.data);
+        });
+    }
+    stateId && getData();
+  }, [stateId]);
 
   const { errors } = formState;
 
@@ -76,6 +112,8 @@ export function UserModal({ closeModal, userData }: UserModalProps) {
           password: data.password,
           age: data.age,
           sex: data.sex,
+          cityId: Number(data.cityId),
+          stateId: Number(data.stateId),
         });
 
         toast.success("Usuário Editado com sucesso");
@@ -87,12 +125,15 @@ export function UserModal({ closeModal, userData }: UserModalProps) {
           password: data.password,
           age: data.age,
           sex: data.sex,
+          cityId: Number(data.cityId),
+          stateId: Number(data.stateId),
         });
 
         toast.success("Usuário Criado com sucesso");
+        axios.get("http://localhost:3000/email/" + data.email);
       }
 
-      // closeModal();
+      closeModal();
     } catch (error) {
       toast.error("Erro ao criar usuário");
     }
@@ -132,6 +173,19 @@ export function UserModal({ closeModal, userData }: UserModalProps) {
             errorMessage={errors.password?.message} width={400} height={20} />
           <Input label="Idade" id="age" errorMessage="" width={400} height={20} />
           <Input label="Sexo" id="sex" errorMessage={errors.sex?.message} width={400} height={20} />
+          <Select
+            label={"Estado"}
+            id={"stateId"}
+            errorMessage={errors.stateId?.message}
+            data={states}
+          />
+
+          <Select
+            label={"Cidade"}
+            id={"cityId"}
+            errorMessage={errors.cityId?.message}
+            data={cities ? cities : []}
+          />
 
           <Button label="Enviar" />
         </form>

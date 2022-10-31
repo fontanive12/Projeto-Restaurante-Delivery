@@ -29,21 +29,6 @@ export function CityList() {
   const showSwal = () => {
     showCityCreateBox()
   }
-  //   const createStatesCombo = async (id: any) => {
-  //     const states = await getStates();
-  //     const data = states.data;
-  //     var select = '<select class="swal2-input" id="mySelect">';
-  //     data.forEach((element: any) => {
-  //       if (id === element.id) {
-  //         select += `<option value="${element.id}" selected>${element.name}</option>`;
-  //       } else {
-  //         select += `<option value="${element.id}">${element.name}</option>`;
-  //       }
-  //     });
-  //     select += '</select>';
-  //     return select;
-  //   }
-  // };
 
   return (
     <div>

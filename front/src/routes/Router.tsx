@@ -7,6 +7,7 @@ import { UserList } from "../pages/Users/User";
 import { CategoryList } from "../pages/Categories/categories";
 import { StateList } from "../pages/States/State";
 import { CityList } from "../pages/Cities/City";
+import { ProductList } from "../pages/Cities/City";
 import { PrivateRoute } from "./PrivateRoute";
 
 export function Router() {

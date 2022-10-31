@@ -141,7 +141,7 @@ export const showCityCreateBox = async () => {
 
 export const showCityEditBox = async (data: City) => {
   Swal.fire({
-    title: 'Create city',
+    title: 'Edit city',
     html:
       '<form id="swal-form">' +
       '<input id="id" name="id" type="hidden" value=" ' + data.id + '">' +

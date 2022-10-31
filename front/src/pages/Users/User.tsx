@@ -35,9 +35,6 @@ export function UserList() {
     }).then(() => setCloseModal(true));
   };
 
-  
-
-
   return (
     <div>
       <Menu />
@@ -46,10 +43,10 @@ export function UserList() {
 
       <MainContainer>
         <Header2Container>
-          {/* <Input width={150} height={50} label={"Digite aqui"} id={"1"} errorMessage={"undefined"}/> */}
+          {/* <Input width={150} height={50} label={"Digite aqui"} id={"2"} errorMessage={"undefined"}/> */}
 
-          {/* <Button width={120} height={50} label="Gerar PDF" onClick={generatePDF} /> */}
-          <Button width={120} height={50} label="Criar Usuário" onClick={showSwal} />
+           {/* <Button width={120} height={50} label="Gerar PDF" onClick={() => ({})} /> */}
+          <Button label="Criar Usuário" onClick={showSwal} /> 
 
         </Header2Container>
         {userList.map((user) => {

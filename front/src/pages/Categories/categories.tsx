@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { CategoryModal, Category } from "../../components/modais/Category/CategoryModal";
 import { Menu } from "../../components/Menu/menu";
-import { MainContainer } from "./categories.styles";
+import { MainContainer, Header2Container } from "../Users/User.styles";
 import { Button } from "../../components/Button/button";
 import { Card } from "../../components/CategoryCards/Card";
 
@@ -34,6 +34,14 @@ export function CategoryList() {
       <Menu />
 
       <Header label="Categorias" />
+
+      <Header2Container>
+          {/* <Input width={150} height={50} label={"Digite aqui"} id={"2"} errorMessage={"undefined"}/> */}
+
+           {/* <Button width={120} height={50} label="Gerar PDF" onClick={() => ({})} /> */}
+           <Button width={120} height={50} label="Criar estado" onClick={showSwal} />
+
+        </Header2Container>
 
       <MainContainer>
         <Button label="Criar categoria" onClick={showSwal} />

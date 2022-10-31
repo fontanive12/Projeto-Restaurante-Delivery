@@ -40,8 +40,8 @@ export function Card({ data }: CardProps) {
       if (result.isConfirmed) {
         axios.delete(`http://localhost:3000/users/` + id)
           .then((response) => {
-                window.location.reload()
-                // navigate("/categories")
+            window.location.reload()
+            // navigate("/categories")
           }, (error) => {
             Swal.fire(`Error ao deletar usuário: ${error.response.data.error} `);
           });

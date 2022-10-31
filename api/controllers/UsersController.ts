@@ -1,7 +1,8 @@
 import { Op } from 'sequelize';
 import { Request, Response, NextFunction } from 'express';
 import UserModel from '../models/User';
-var nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 class UsersController {
 
@@ -61,8 +62,6 @@ class UsersController {
       const data = await this._validateData(req.body);
       const user = await UserModel.create(data);
 
-      this.criarEmail(user.email, user.name);
-
       res.json(user);
     }
     catch (error: any) {
@@ -70,13 +69,15 @@ class UsersController {
     }
   }
 
-  criarEmail = (email: any, name: any) => {
+  criarEmail = (req: Request, res: Response, next: NextFunction) => {
 
-    let email_user = 'fontanive12@gmail.com';
-    let email_pass = 'fran458932';
-    let email_to = email;
-    let email_subject = 'Obrigada por se cadastrar';
-    let email_html = `Bem-vindo ${name}`;
+    let email_user = 'franciele.fontanive@universo.univates.br';
+    let email_pass = 'Fran458932';
+    let email_to = req.params.email;
+    let email_subject = 'Bateu aquela fome?';
+    let email_html = `Peça já o seu almoço`;
+
+    console.log("destinatario:" + email_to);
 
     var transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -93,7 +94,7 @@ class UsersController {
       html: email_html
     };
 
-    transporter.sendMail(mailOptions, function (error: any, info: any) {
+    transporter.sendMail(mailOptions, (error: Error | null, info: SMTPTransport.SentMessageInfo) => {
       if (error) {
         console.log('Erro ao enviar e-mail: ' + error)
       } else {
@@ -101,6 +102,40 @@ class UsersController {
       }
     })
   };
+
+
+
+  // _sendMail = async (req: Request, res: Response, next: NextFunction) => {
+  //   let user = 'fontanive12@gmail.com';
+  //   let password = 'fran458932';
+  //   let to = req.params.email;
+  //   let subject = 'Finalmenete!';
+  //   let content = 'You have been registered in the RHPlus system!';
+  //   let html = 'Só um e-mail de <i>exemplo</i>, com <b>html</b>, e acentuação.';
+
+  //   var transporter = nodemailer.createTransport({
+  //     service: 'gmail',
+  //     auth: {
+  //       user: user,
+  //       pass: password
+  //     }
+  //   });
+
+  //   var mailOptions = {
+  //     from: user,
+  //     to: to,
+  //     subject: subject,
+  //     text: content
+  //   }
+
+  //   transporter.sendMail(mailOptions, (error: Error | null, info: SMTPTransport.SentMessageInfo) => {
+  //     if (error) {
+  //       console.log('Erro on sendMail:' + error);
+  //     } else {
+  //       console.log('Mail sent!');
+  //     }
+  //   });
+  // }
 
   show = async (req: Request, res: Response, next: NextFunction) => {
     const user = await UserModel.findByPk(req.params.userId);

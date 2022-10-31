@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { StateModal, State } from "../../components/modais/State/StateModal";
 import { Menu } from "../../components/Menu/menu";
-import { MainContainer, Header2Container } from "./State.styles";
+import { MainContainer, Header2Container } from "../Users/User.styles"
 import { Button } from "../../components/Button/button";
 import { Card } from "../../components/StateCards/Card";
 import {Input} from "../../components/Input/input";
@@ -48,5 +48,5 @@ export function StateList() {
         })}
       </MainContainer>
     </div>
-  );
+  );  
 }

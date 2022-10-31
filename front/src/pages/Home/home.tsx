@@ -11,11 +11,12 @@ export function Home() {
 
   return (
     <div>
-      <Menu />
+      {/* <Menu /> */}
       <Header label="Home" />
 
       <MainContainer>
         <NavLinkContainer>
+
           <NavbarLink to="/users">
             <NavbarItem>
               <h2>Usuários</h2>
@@ -43,6 +44,39 @@ export function Home() {
               <User size={40} />
             </NavbarItem>
           </NavbarLink>
+
+        </NavLinkContainer>
+
+
+        <NavLinkContainer>
+          <NavbarLink to="/cities">
+            <NavbarItem>
+              <h2>Cidades</h2>
+              <User size={40} />
+            </NavbarItem>
+          </NavbarLink>
+
+          <NavbarLink to="/cities">
+            <NavbarItem>
+              <h2>Cidades</h2>
+              <User size={40} />
+            </NavbarItem>
+          </NavbarLink>
+
+          <NavbarLink to="/cities">
+            <NavbarItem>
+              <h2>Cidades</h2>
+              <User size={40} />
+            </NavbarItem>
+          </NavbarLink>
+
+          <NavbarLink to="/cities">
+            <NavbarItem>
+              <h2>Cidades</h2>
+              <User size={40} />
+            </NavbarItem>
+          </NavbarLink>
+
         </NavLinkContainer>
       </MainContainer>
 

@@ -38,7 +38,8 @@ export function Card({ data }: CardProps) {
       cancelButtonText: 'Cancelar'
     }).then(async (result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:3000/states/` + id)
+        let router = 'states'
+        axios.delete(`http://localhost:3000/states/${id}`)
           .then((response) => {
                 window.location.reload()
                 // navigate("/categories")
