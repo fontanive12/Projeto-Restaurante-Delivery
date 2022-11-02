@@ -58,7 +58,6 @@ export function Card({ data }: CardProps) {
         <CardInfo title="Gênero" data={data.sex} />
         <CardInfo title="Telefone" data={data.phoneNumber} />
         <CardInfo title="Cidade" data={data.City?.name} />
-        <CardInfo title="Número" data={data.number} />
 
         <Edit title="Editar" onClick={showSwal}>
           {<Pencil size={32} />}

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-// import { Loading } from "../components/Loading";
+import { Loading } from "../components/Loading/Loading";
 
 export const
   PrivateRoute = ({ ...rest }) => {
@@ -12,8 +12,9 @@ export const
 
     getLogged();
   }, [getLogged, user]);
+
   if (loading) {
-    // return <Loading />;
+    return <Loading />;
   } else if (user) {
       return <Outlet {...rest} />;
     } else {
