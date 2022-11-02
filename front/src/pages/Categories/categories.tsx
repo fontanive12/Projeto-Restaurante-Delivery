@@ -1,7 +1,7 @@
 import { Header } from "../../components/Header/header";
 
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { CategoryModal, Category } from "../../components/modais/Category/CategoryModal";
@@ -9,6 +9,7 @@ import { Menu } from "../../components/Menu/menu";
 import { MainContainer, Header2Container } from "../Users/User.styles";
 import { Button } from "../../components/Button/button";
 import { Card } from "../../components/CategoryCards/Card";
+import { Input } from "../../components/Input/input";
 
 export function CategoryList() {
   const MySwal = withReactContent(Swal);
@@ -29,6 +30,18 @@ export function CategoryList() {
     }).then(() => setCloseModal(true));
   };
 
+
+  // const names: any = ["teste", "teste2"]
+
+  // const [search, setSearch] = useState('');
+
+  
+
+  // const lowerSearch = search.toLowerCase();
+
+  // const filterNames = names
+  //   .filter((name: any) => name.toLowerCase().includes(lowerSearch));
+
   return (
     <div>
       <Menu />
@@ -36,12 +49,31 @@ export function CategoryList() {
       <Header label="Categorias" />
 
       <Header2Container>
-          {/* <Input width={150} height={50} label={"Digite aqui"} id={"2"} errorMessage={"undefined"}/> */}
+        <Button width={120} height={50} label="Criar estado" onClick={showSwal} />
 
-           {/* <Button width={120} height={50} label="Gerar PDF" onClick={() => ({})} /> */}
-           <Button width={120} height={50} label="Criar estado" onClick={showSwal} />
+        {/* <input type="text" value={search} onChange={(ev) => setSearch(ev.target.value)} />
+        <ul>
+          {names.map((name:any) => (
+            <li key={name}>{name}</li>
+          ))}
+        </ul> */}
 
-        </Header2Container>
+
+
+        {/* <Input width={150} height={50} label={"Digite aqui"} id={"2"} errorMessage={"undefined"}/> */}
+
+        {/* <Button width={120} height={50} label="Gerar PDF" onClick={() => ({})} /> */}
+        {/* <Input
+              width={350} //define o tamanho
+              height={72}
+              label="Email"
+              id="email"
+              placeholder="Digite seu email"
+              errorMessage={"erro"}
+            /> */}
+
+
+      </Header2Container>
 
       <MainContainer>
         <Button label="Criar categoria" onClick={showSwal} />

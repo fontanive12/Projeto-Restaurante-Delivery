@@ -2,10 +2,14 @@ import { Op } from 'sequelize';
 import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import fs from 'fs';
+import pdf from 'html-pdf';
 import UserModel from '../models/User';
 import LogModel from '../models/Log';
+import BaseController from './BaseController';
+import CityModel from '../models/City';
 
-class UsersController {
+class UsersController extends BaseController {
 
   index = async (req: Request, res: Response) => {
     const params = req.query;
@@ -53,12 +57,104 @@ class UsersController {
       where: where,
       limit: limit,
       offset: offset,
-      order: [[sort, order]]
+      order: [[sort, order]],
+      include: [{
+        model: CityModel,
+        required: false,
+        attributes: ['name']
+      }]
     });
     res.json(users);
   }
 
+  // pdf = async (req: Request, res: Response, next: NextFunction) => {
+  //   // let where = await this.montaWhere(req);
+  //   const users = await UserModel.findAll();
+  //   let tBody: string = '';
+
+  //   for (let i in users) {
+  //     let user = users[i];
+  //     tBody +=
+  //       `<tr>
+  //       <td>${user.name}</td>
+  //       <td>${user.age}</td>
+  //       <td>${user.sex}</td>
+  //       <td>${user.email}</td>
+  //     </tr>`;
+  //   }
+
+  //   const html =
+  //     `<h1>Lista de usuários</h1>
+  //   <table style="width:100%" border="1">
+  //     <tr>
+  //       <th>Name</th>
+  //       <th>Age</th>
+  //       <th>Sex</th>
+  //       <th>Email</th>
+  //     </tr>
+  //     ${tBody}
+  //   </table>
+  //   `;
+
+  //   await this.generatePdf(html, req, res);
+  // }
+
+  pdf = async (req: Request, res: Response, next: NextFunction) => {
+    let employee = await UserModel.findAll();
+    let html = `<table border="1" style="width:100%">
+    <h1>System employee report</h1>
+    <h4>Generated at: ${new Date}</h4>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+    </tr>`
+    for (let i = 0; i < employee.length; i++) {
+      let user = employee[i];
+      html += 
+      `<tr>
+        <td>${user.id}</td>
+        <td>${user.name}</td>
+      </tr>`
+    }
+    html += `</table>`
+
+    const options: pdf.CreateOptions = {
+      type: 'pdf',
+      format: 'A4',
+      orientation: 'portrait'
+    }
+
+    pdf.create(html, options).toBuffer((err, buffer) => {
+
+      if (err) {
+        return res.status(500).json(err);
+      }
+      res.end(buffer)
+    })
+  }
+
+
+  // csv = async (req: Request, res: Response, next: NextFunction) => {
+  //   const users = await UserModel.findAll();
+  //   let csv: string = `name;age;sex;email
+  //   `;
+
+  //   for (let i in users) {
+  //     let user = users[i];
+  //     csv += `${user.name};${user.age};${user.sex};${user.email}
+  //     `;
+  //   }
+
+  //   res.header("Content-type", "text/csv");
+  //   res.header("Content-Disposition", "attachment; filename=usuarios.csv");
+  //   res.header("Pragma", "attachment; no-cache");
+  //   res.header("Expires", "0");
+
+  //   res.send(csv);
+  // }
+
   create = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body)
     try {
       const data = await this._validateData(req.body);
       const user = await UserModel.create(data);
@@ -66,11 +162,13 @@ class UsersController {
         description: `User ${data.name} created.`
       })
       res.json(user);
+
     }
     catch (error: any) {
       res.status(400).json({ error: error.message + "" });
     }
   }
+
 
   criarEmail = (req: Request, res: Response, next: NextFunction) => {
 
@@ -104,6 +202,14 @@ class UsersController {
         console.log('E-mail enviado: ' + info.response);
       }
     })
+
+    // pdf.create(html, options).toBuffer((err, buffer) => {
+
+    //   if (err) {
+    //     return res.status(500).json(err);
+    //   }
+    //   res.end(buffer)
+    // })
   };
 
   show = async (req: Request, res: Response, next: NextFunction) => {
@@ -143,7 +249,7 @@ class UsersController {
   }
 
   _validateData = async (data: any, id?: any) => {
-    const attributes = ['name', 'age', 'sex', 'email', 'password'];
+    const attributes = ['name', 'age', 'sex', 'phoneNumber', 'number', 'email', 'password', 'CityId'];
     const user: any = {};
 
     for (const attribute of attributes) {
@@ -151,7 +257,10 @@ class UsersController {
         throw new Error(`The attribute "${attribute}" is required.`);
       }
 
+      console.log(data[attribute]);
       user[attribute] = data[attribute];
+
+      console.log("----cidade:" + data.CityId);
     }
 
     if (await this._checkIfEmailExists(user.email, id)) {

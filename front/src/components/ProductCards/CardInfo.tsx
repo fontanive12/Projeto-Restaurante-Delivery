@@ -2,7 +2,7 @@ import { Title, DivContainer, Data } from "./CardInfo.styles";
 
 interface CardInfoProps {
   title: string;
-  data: string | number | undefined; 
+  data: string | number | undefined;
 }
 
 export function CardInfo({ title, data }: CardInfoProps) {

@@ -30,7 +30,13 @@ const authentication = async (req: Request, res: Response, next: NextFunction) =
 
         let user = await UserModel.locateUser(username, password);
 
-        if (!user) {
+        if (req.path === "/users/pdf") {
+            next();
+        }
+
+        console.log("--------------REQ: " + req.url);
+
+        if (!user) {    
             return res.status(401).json({ message: 'Invalid Authentication Credentials' });
         }
 

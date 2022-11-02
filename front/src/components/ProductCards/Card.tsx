@@ -6,13 +6,13 @@ import { Pencil, Trash } from "phosphor-react";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
-import { City, CityModal } from "../modais/City/CityModal";
+import { Product, ProductModal } from "../modais/Product/ProductModal";
 import { useNavigate } from "react-router-dom";
-import {showCityEditBox} from "../modais/City/CityModal";
+import {showProductEditBox} from "../modais/Product/ProductModal";
 import axios from "axios";
 
 interface CardProps {
-  data: City;
+  data: Product;
 }
 
 export function Card({ data }: CardProps) {
@@ -21,7 +21,7 @@ export function Card({ data }: CardProps) {
   console.log(data)
 
   const showSwal = () => {
-    showCityEditBox(data);
+    showProductEditBox(data);
   };
 
   const showDeleteSwal = (id: number) => {
@@ -36,13 +36,13 @@ export function Card({ data }: CardProps) {
       cancelButtonText: 'Cancelar'
     }).then(async (result) => {
       if (result.isConfirmed) {
-        let router = 'states'
-        axios.delete(`http://localhost:3000/cities/${id}`)
+        let router = 'categories'
+        axios.delete(`http://localhost:3000/products/${id}`)
           .then((response) => {
                 window.location.reload()
                 // navigate("/categories")
           }, (error) => {
-            Swal.fire(`Error ao deletar estado: ${error.response.data.error} `);
+            Swal.fire(`Error ao deletar produto: ${error.response.data.error} `);
           });
       };
     });
@@ -53,10 +53,12 @@ export function Card({ data }: CardProps) {
   return (
     <DivContainer>
       <ContentContainer>
-        <strong>{data.id}</strong>
-
+        <CardInfo title="Id" data={data.id} />
         <CardInfo title="Nome" data={data.name} />
-        <CardInfo title="Estado" data={data.State?.name} />
+        <CardInfo title="Descrição" data={data.name} />
+        <CardInfo title="Tamanho" data={data.name} />
+        <CardInfo title="Preço" data={data.name} />
+        <CardInfo title="Categoria" data={data.Category?.description} />
 
         <Edit title="Editar" onClick={showSwal}>
           {<Pencil size={32} />}

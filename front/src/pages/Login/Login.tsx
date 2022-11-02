@@ -36,14 +36,6 @@ export function Login() {
 
   async function handleSubmitLogin(data: Login) {
     const login = await signIn(data);
-    // if (login) {
-    //   navigate("/"); 
-    // if (data.email === "fontanive12@gmail.com" && data.password === "123") {
-    //   navigate("/home")
-    // alert("oi")
-    // } else {
-    //   setErrorLogin("Login e/ou senha incorreto(s)");
-    // }
 
     if (data.email === "fontanive12@gmail.com" && data.password === "12345") {
       navigate("/home");

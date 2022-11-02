@@ -7,6 +7,7 @@ import { UserList } from "../pages/Users/User";
 import { CategoryList } from "../pages/Categories/categories";
 import { StateList } from "../pages/States/State";
 import { CityList } from "../pages/Cities/City";
+import { ProductList } from "../pages/Products/Product";
 import { PaymentList } from "../pages/Payments/payment";
 import { PrivateRoute } from "./PrivateRoute";
 
@@ -19,8 +20,10 @@ export function Router() {
         <Route path="/home" element={<Home />} />
         <Route path="/categories" element={<CategoryList />} />
         <Route path="/users" element={<UserList />} />
+        <Route path="/users/pdf" element={<UserList />} />
         <Route path="/states" element={<StateList />} />
         <Route path="/cities" element={<CityList />} />
+        <Route path="/products" element={<ProductList />} />
         <Route path="/payments" element={<PaymentList />} />
       </Route>
 

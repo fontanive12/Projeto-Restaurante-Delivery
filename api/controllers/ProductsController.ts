@@ -1,10 +1,13 @@
 import { Op } from 'sequelize';
 import { Request, Response, NextFunction } from 'express';
+import fs from 'fs';
+import pdf from 'html-pdf';
 import ProductModel from '../models/Product';
 import CategoryModel from '../models/Category';
 import LogModel from '../models/Log';
+import BaseController from './BaseController';
 
-class CitiesController {
+class CitiesController extends BaseController {
 
   index = async (req: Request, res: Response, next: NextFunction) => {
     const params = req.query;
@@ -29,6 +32,53 @@ class CitiesController {
 
     res.json(products);
   }
+
+  // pdf = async (req: Request, res: Response, next: NextFunction) => {
+  //   // let where = await this.montaWhere(req);
+  //   const users = await ProductModel.findAll();
+  //   let tBody: string = '';
+
+  //   for (let i in users) {
+  //     let user = users[i];
+  //     tBody +=
+  //       `<tr>
+  //       <td>${user.name}</td>
+  //     </tr>`;
+  //   }
+
+  //   const html =
+  //     `<h1>Lista de usuários</h1>
+  //   <table style="width:100%" border="1">
+  //     <tr>
+  //       <th>Name</th>
+  //     </tr>
+  //     ${tBody}
+  //   </table>
+  //   `;
+
+  //   await this.generatePdf(html, req, res);
+  // }
+
+
+
+  // csv = async (req: Request, res: Response, next: NextFunction) => {
+  //   const users = await ProductModel.findAll();
+  //   let csv: string = `name;
+  //   `;
+
+  //   for (let i in users) {
+  //     let user = users[i];
+  //     csv += `${user.name};
+  //     `;
+  //   }
+
+  //   res.header("Content-type", "text/csv");
+  //   res.header("Content-Disposition", "attachment; filename=usuarios.csv");
+  //   res.header("Pragma", "attachment; no-cache");
+  //   res.header("Expires", "0");
+
+  //   res.send(csv);
+  // }
 
   create = async (req: Request, res: Response, next: NextFunction) => {
     try {

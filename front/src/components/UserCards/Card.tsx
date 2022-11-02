@@ -6,7 +6,7 @@ import { Pencil, Trash } from "phosphor-react";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
-import { User, UserModal } from "../modais/User/UserModal";
+import { showUserEditBox, User, UserModal } from "../modais/User/UserModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -19,12 +19,9 @@ export function Card({ data }: CardProps) {
   const MySwal = withReactContent(Swal);
 
   const showSwal = () => {
-    MySwal.fire({
-      title: <strong>Editar Usuário</strong>,
-      html: <UserModal closeModal={MySwal.close} userData={data} />,
-      showConfirmButton: false,
-    }).then(() => window.location.reload());
+    showUserEditBox(data);
   };
+
 
   const showDeleteSwal = (id: number) => {
     Swal.fire({
@@ -54,12 +51,14 @@ export function Card({ data }: CardProps) {
   return (
     <DivContainer>
       <ContentContainer>
-        <strong>{data.id}</strong>
-
+        <CardInfo title="Id" data={data.id} />
         <CardInfo title="Nome" data={data.name} />
         <CardInfo title="Email" data={data.email} />
         <CardInfo title="Idade" data={data.age} />
-        <CardInfo title="Sexo" data={data.sex} />
+        <CardInfo title="Gênero" data={data.sex} />
+        <CardInfo title="Telefone" data={data.phoneNumber} />
+        <CardInfo title="Cidade" data={data.City?.name} />
+        <CardInfo title="Número" data={data.number} />
 
         <Edit title="Editar" onClick={showSwal}>
           {<Pencil size={32} />}

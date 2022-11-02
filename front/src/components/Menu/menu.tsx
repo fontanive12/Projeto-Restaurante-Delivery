@@ -1,4 +1,4 @@
-import { User, Atom } from "phosphor-react";
+import { User, Atom, ForkKnife, Money, GlobeHemisphereEast, GlobeHemisphereWest, Hamburger, List } from "phosphor-react";
 
 import {
   ContentContainer,
@@ -11,7 +11,7 @@ export function Menu() {
   return (
     <MenuContainer>
       <ContentContainer>
-        <Atom size={62} />
+        <List size={62} />
         <NavLinkContainer>
           <NavbarLink to="/users">
             <User size={32} />
@@ -19,27 +19,27 @@ export function Menu() {
           </NavbarLink>
 
           <NavbarLink to="/categories">
-            <User size={32} />
+            <ForkKnife size={32} />
             <p>Categorias</p>
           </NavbarLink>
 
           <NavbarLink to="/states">
-            <User size={32} />
+            <GlobeHemisphereEast size={32} />
             <p>Estados</p>
           </NavbarLink>
 
           <NavbarLink to="/cities">
-            <User size={32} />
+            <GlobeHemisphereWest size={32} />
             <p>Cidades</p>
           </NavbarLink>
 
           <NavbarLink to="/payments">
-            <User size={32} />
+            <Money size={32} />
             <p>Forma de pagamento</p>
           </NavbarLink>
 
           <NavbarLink to="/products">
-            <User size={32} />
+            <Hamburger size={32} />
             <p>Produtos</p>
           </NavbarLink>
 

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { UserModal, User } from "../../components/modais/User/UserModal";
+import { UserModal, User, showUserCreateBox } from "../../components/modais/User/UserModal";
 import { Menu } from "../../components/Menu/menu";
 import { MainContainer, Header2Container } from "./User.styles";
 import { Button } from "../../components/Button/button";
@@ -14,6 +14,9 @@ import express, { Express, Request, Response } from 'express';
 import * as fs from 'fs';
 import pdf from 'html-pdf';
 import puppeteer from 'puppeteer';
+
+const ENDPOINT = `http://localhost:3000`;
+
 
 export function UserList() {
   const MySwal = withReactContent(Swal);
@@ -27,13 +30,15 @@ export function UserList() {
   }, [closeModal]);
 
   const showSwal = () => {
-    MySwal.fire({
-      title: <strong>Criar usuário</strong>,
-
-      html: <UserModal closeModal={MySwal.close} />,
-      showConfirmButton: false,
-    }).then(() => setCloseModal(true));
+    showUserCreateBox();
   };
+
+  const generatePdf = () => {
+    window.open(`${ENDPOINT}/users/pdf`);
+  }
+  const generateCsv = () => {
+    window.open(`${ENDPOINT}/users/csv`);
+  }
 
   return (
     <div>
@@ -43,12 +48,14 @@ export function UserList() {
 
       <MainContainer>
         <Header2Container>
-          {/* <Input width={150} height={50} label={"Digite aqui"} id={"2"} errorMessage={"undefined"}/> */}
-
-           {/* <Button width={120} height={50} label="Gerar PDF" onClick={() => ({})} /> */}
-          <Button label="Criar Usuário" onClick={showSwal} /> 
-
+          <Button label="Criar Usuário" onClick={showSwal} />
+          <Button label="PDF" onClick={generatePdf} />
+          <Button label="PDF" onClick={generateCsv} />
         </Header2Container>
+        {/* <div>
+          <a href="http://localhost:3000/users/pdf" > PDF </a>
+          <a href="http://localhost:3000/users/csv" target="_BLANK"> CSV </a>
+        </div> */}
         {userList.map((user) => {
           return <Card data={user} />;
         })}

@@ -74,6 +74,7 @@ async function handleCrateNewCity(data: City) {
       toast.success("Cidade criada com sucesso");
     }
 
+    // closeModal();
   } catch (error) {
     toast.error("Erro ao criar cidade");
   }
@@ -145,7 +146,9 @@ export const showCityEditBox = async (data: City) => {
     html:
       '<form id="swal-form">' +
       '<input id="id" name="id" type="hidden" value=" ' + data.id + '">' +
+
       '<input id="name" name="name" class="swal2-input" placeholder="Name" value=" ' + data.name + '">' +
+
       '<select name="StateId" class="swal2-input" id="mySelect">' + await createStatesCombo(Number(data.StateId)) + '</select>' +
       '</form>'
     ,
@@ -167,4 +170,4 @@ export const showCityEditBox = async (data: City) => {
       handleCrateNewCity(newCity)
     }
   });
-}
+} 

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 
 import { Button } from "../../Button/button";
-import { DivContainer, ItemsFormContainer } from "./CategoryModal.styles";
+import { DivContainer, ItemsFormContainer } from "../User/UserModal.styles";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "../../Input/input";
 import { idText } from "typescript";

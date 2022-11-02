@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { CityModal, City, showCityCreateBox } from "../../components/modais/City/CityModal";
 import { Menu } from "../../components/Menu/menu";
-import { MainContainer, Header2Container } from "./City.styles";
+import { MainContainer, Header2Container } from "../Users/User.styles";
 import { Button } from "../../components/Button/button";
 import { Card } from "../../components/CityCards/Card";
 import { Input } from "../../components/Input/input";
