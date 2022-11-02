@@ -33,29 +33,29 @@ export function UserList() {
     showUserCreateBox();
   };
 
-  const generatePdf = () => {
-    window.open(`${ENDPOINT}/users/pdf`);
-  }
-  const generateCsv = () => {
-    window.open(`${ENDPOINT}/users/csv`);
+  const pdf = () => {
+    axios.get(
+      'http://localhost:3000/users/pdf',
+      { responseType: 'blob' }
+    ).then((response) => {
+      const file = new Blob(
+        [response.data],
+        { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    })
   }
 
   return (
     <div>
       <Menu />
-
       <Header label="Usuários" />
-
       <MainContainer>
         <Header2Container>
           <Button label="Criar Usuário" onClick={showSwal} />
-          <Button label="PDF" onClick={generatePdf} />
-          <Button label="PDF" onClick={generateCsv} />
+          <Button label="PDF" onClick={pdf} />
+          {/* <Button label="PDF" onClick={generateCsv} />/ */}
         </Header2Container>
-        {/* <div>
-          <a href="http://localhost:3000/users/pdf" > PDF </a>
-          <a href="http://localhost:3000/users/csv" target="_BLANK"> CSV </a>
-        </div> */}
         {userList.map((user) => {
           return <Card data={user} />;
         })}

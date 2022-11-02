@@ -8,7 +8,7 @@ import routerCategories from './categories';
 import routerProducts from './products';
 import routerPayments from './payments';
 import routerLogs from './logs';
-import routerAuth from './auth';
+// import routerAuth from './auth';
 
 const router = express.Router();
 
@@ -17,24 +17,25 @@ const authentication = async (req: Request, res: Response, next: NextFunction) =
     try {
         let authorization = req.headers.authorization as string;
 
-        if (!authorization || authorization.indexOf('Basic ') === -1) {
-            return res.status(401).json({ message: 'Missing Authorization Header' });
-        }
-
-        authorization = authorization.replace("Basic ", '');
-        let ascii = Buffer.from(authorization, 'base64').toString('ascii');
-        let data = ascii.split(":");
-
-        let username = data[0];
-        let password = data[1];
-
-        let user = await UserModel.locateUser(username, password);
-
         if (req.path === "/users/pdf") {
             next();
         }
-
-        console.log("--------------REQ: " + req.url);
+        
+        console.log("--------------REQ: " + req.path);
+        
+        if (!authorization || authorization.indexOf('Basic ') === -1) {
+            return res.status(401).json({ message: 'Missing Authorization Header' });
+        }
+        
+        authorization = authorization.replace("Basic ", '');
+        let ascii = Buffer.from(authorization, 'base64').toString('ascii');
+        let data = ascii.split(":");
+        
+        let username = data[0];
+        let password = data[1];
+        
+        
+        let user = await UserModel.locateUser(username, password);
 
         if (!user) {    
             return res.status(401).json({ message: 'Invalid Authentication Credentials' });
@@ -56,7 +57,7 @@ router.use(routerUsers);
 router.use(routerStates);
 router.use(routerCities);
 router.use(routerCategories);
-router.use(routerAuth);
+// router.use(routerAuth);
 router.use(routerProducts);
 router.use(routerPayments);
 router.use(routerLogs);

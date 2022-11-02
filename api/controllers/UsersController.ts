@@ -9,7 +9,7 @@ import LogModel from '../models/Log';
 import BaseController from './BaseController';
 import CityModel from '../models/City';
 
-class UsersController extends BaseController {
+class UsersController  {
 
   index = async (req: Request, res: Response) => {
     const params = req.query;
@@ -67,56 +67,33 @@ class UsersController extends BaseController {
     res.json(users);
   }
 
-  // pdf = async (req: Request, res: Response, next: NextFunction) => {
-  //   // let where = await this.montaWhere(req);
-  //   const users = await UserModel.findAll();
-  //   let tBody: string = '';
-
-  //   for (let i in users) {
-  //     let user = users[i];
-  //     tBody +=
-  //       `<tr>
-  //       <td>${user.name}</td>
-  //       <td>${user.age}</td>
-  //       <td>${user.sex}</td>
-  //       <td>${user.email}</td>
-  //     </tr>`;
-  //   }
-
-  //   const html =
-  //     `<h1>Lista de usuários</h1>
-  //   <table style="width:100%" border="1">
-  //     <tr>
-  //       <th>Name</th>
-  //       <th>Age</th>
-  //       <th>Sex</th>
-  //       <th>Email</th>
-  //     </tr>
-  //     ${tBody}
-  //   </table>
-  //   `;
-
-  //   await this.generatePdf(html, req, res);
-  // }
-
   pdf = async (req: Request, res: Response, next: NextFunction) => {
-    let employee = await UserModel.findAll();
-    let html = `<table border="1" style="width:100%">
-    <h1>System employee report</h1>
-    <h4>Generated at: ${new Date}</h4>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-    </tr>`
-    for (let i = 0; i < employee.length; i++) {
-      let user = employee[i];
-      html += 
-      `<tr>
-        <td>${user.id}</td>
+    const users = await UserModel.findAll();
+    let tBody: string = '';
+
+    for (let i in users) {
+      let user = users[i];
+      tBody +=
+        `<tr>
         <td>${user.name}</td>
-      </tr>`
+        <td>${user.age}</td>
+        <td>${user.sex}</td>
+        <td>${user.email}</td>
+      </tr>`;
     }
-    html += `</table>`
+
+    const html =
+      `<h1>Lista de usuários</h1>
+    <table style="width:100%" border="1">
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Sex</th>
+        <th>Email</th>
+      </tr>
+      ${tBody}
+    </table>
+    `;
 
     const options: pdf.CreateOptions = {
       type: 'pdf',
@@ -124,14 +101,18 @@ class UsersController extends BaseController {
       orientation: 'portrait'
     }
 
-    pdf.create(html, options).toBuffer((err, buffer) => {
-
+    pdf.create(html, options).toBuffer((err: any, buffer: any) => {
+      res.header("Content-Disposition", "attachment;");
       if (err) {
-        return res.status(500).json(err);
+        return res.status(500).json(err)
       }
+
+
       res.end(buffer)
     })
   }
+
+
 
 
   // csv = async (req: Request, res: Response, next: NextFunction) => {

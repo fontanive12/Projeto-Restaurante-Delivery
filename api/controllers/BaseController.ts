@@ -22,7 +22,7 @@ class BaseController
 
           res.header("Content-Disposition", "attachment;");
           
-          res.end(buffer)               
+          res.send(buffer)               
       })
     }
 }
