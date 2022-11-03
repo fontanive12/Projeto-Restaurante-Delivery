@@ -1,12 +1,163 @@
+// import { Op } from 'sequelize';
+// import { Request, Response, NextFunction } from 'express';
+// import EmployeeModel from '../models/Employee';
+// import LogModel from '../models/Log';
+
+// class EmployersController {
+
+//   index = async (req: Request, res: Response) => {
+//     const params = req.query;
+//     const limit: number = parseInt(params.limit as string) || 100;
+//     const page: number = parseInt(params.page as string) || 1;
+//     const offset: number = (page - 1) * limit;
+//     const sort: any = params.sort || 'id';
+//     const order: any = params.order || 'ASC';
+//     const where: any = {};
+
+//     if (params.name) {
+//       where.name =
+//       {
+//         [Op.iLike]: `%${params.name}%`
+//       };
+//     }
+
+//     if (params.email) {
+//       where.email =
+//       {
+//         [Op.iLike]: `%${params.email}%`
+//       };
+//     }
+
+//     if (params.min_age) {
+//       where.age =
+//       {
+//         [Op.gte]: params.min_age
+//       };
+//     }
+
+//     if (params.max_age) {
+//       if (!where.age) {
+//         where.age = {};
+//       }
+
+//       where.age[Op.lte] = params.max_age;
+//     }
+
+//     if (params.sex) {
+//       where.sex = params.sex;
+//     }
+
+//     const Admins = await EmployeeModel.findAll({
+//       where: where,
+//       limit: limit,
+//       offset: offset,
+//       order: [[sort, order]]
+//     });
+//     res.json(Admins);
+//   }
+
+//   create = async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       const data = await this._validateData(req.body);
+//       const employee = await EmployeeModel.create(data);
+//       LogModel.create({
+//         description: `Employee ${data.name} created.`
+//       })
+//       res.json(employee);
+//     }
+//     catch (error: any) {
+//       res.status(400).json({ error: error.message + "" });
+//     }
+//   }
+
+//   show = async (req: Request, res: Response, next: NextFunction) => {
+//     const employee = await EmployeeModel.findByPk(req.params.EmployeeId);
+//     res.json(employee);
+//   }
+
+//   update = async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       const id = req.params.EmployeeId;
+//       const data = await this._validateData(req.body, id);
+//       await EmployeeModel.update(data, {
+//         where: {
+//           id: id
+//         }
+//       });
+//       LogModel.create({
+//         description: `Employee ${data.name} updated.`
+//       })
+//       res.json(await EmployeeModel.findByPk(id));
+//     }
+//     catch (error: any) {
+//       res.status(400).json({ error: error.message + "" });
+//     }
+//   }
+
+//   delete = async (req: Request, res: Response, next: NextFunction) => {
+//     await EmployeeModel.destroy({
+//       where: {
+//         id: req.params.EmployeeId
+//       }
+//     });
+//     LogModel.create({
+//       description: `Employee deleted.`
+//     })
+//     res.json({});
+//   }
+
+//   _validateData = async (data: any, id?: any) => {
+//     const attributes = ['name', 'birthDate', 'genre', 'phoneNumber', 'address', 'position', 'email', 'password'];
+//     const employee: any = {};
+
+//     for (const attribute of attributes) {
+//       if (!data[attribute]) {
+//         throw new Error(`The attribute "${attribute}" is required.`);
+//       }
+
+//       employee[attribute] = data[attribute];
+//     }
+
+//     if (await this._checkIfEmailExists(employee.email, id)) {
+//       throw new Error(`The employee with mail address "${employee.email}" already exists.`);
+//     }
+
+//     return employee;
+//   }
+
+//   _checkIfEmailExists = async (email: string, id?: string) => {
+//     const where: any =
+//     {
+//       email: email
+//     };
+
+//     if (id) {
+//       where.id = { [Op.ne]: id }; // WHERE id != id
+//     }
+
+//     const count = await EmployeeModel.count({
+//       where: where
+//     });
+
+//     return count > 0;
+//   }
+// }
+
+// export default new EmployersController();
+
+
+
+
+
+
 import { Op } from 'sequelize';
 import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import fs from 'fs';
 import pdf from 'html-pdf';
-import UserModel from '../models/User';
+import UserModel from '../models/Employee';
 import LogModel from '../models/Log';
-import BaseController from './BaseController';
 import CityModel from '../models/City';
 import { Article } from 'phosphor-react';
 
@@ -72,9 +223,9 @@ class UsersController {
   pdf = async (req: Request, res: Response, next: NextFunction) => {
     const users = await UserModel.findAll();
     const cities = await CityModel.findAll();
-    
+
     let tBody: string = '';
-    
+
     for (let i in users) {
       let user = users[i];
       let city = cities[i];
@@ -82,8 +233,8 @@ class UsersController {
       tBody +=
         `<tr>
         <td>${user.name}</td>
-        <td>${user.age}</td>
-        <td>${user.sex}</td>
+        <td>${user.birthDate}</td>
+        <td>${user.genre}</td>
         <td>${user.phoneNumber}</td>
         <td>${user.email}</td>
         <td>${city.name}</td>
@@ -125,13 +276,13 @@ class UsersController {
   csv = async (req: Request, res: Response, next: NextFunction) => {
     const users = await UserModel.findAll();
     const cities = await CityModel.findAll();
-    let csv: string = `name;age;sex;phoneNumber;email;city;`;
+    let csv: string = `name;age;sex;email;cidade;`;
 
     for (let i in users) {
       let user = users[i];
       let city = cities[i];
       csv += `
-${user.name};${user.age};${user.sex};${user.phoneNumber};${user.email};${city.name}`;
+      ${user.name};${user.birthDate};${user.genre};${user.phoneNumber}${user.email}${city.name}`;
     }
 
     res.header("Content-type", "text/csv");

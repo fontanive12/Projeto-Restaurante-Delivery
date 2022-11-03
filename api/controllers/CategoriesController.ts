@@ -14,7 +14,7 @@ class CategoriesController {
   pdf = async (req: Request, res: Response, next: NextFunction) => {
     const categories = await CategoryModel.findAll();
     let tBody: string = '';
-    
+
     for (let i in categories) {
       let category = categories[i];
 
@@ -53,13 +53,12 @@ class CategoriesController {
 
   csv = async (req: Request, res: Response, next: NextFunction) => {
     const categories = await CategoryModel.findAll();
-    let csv: string = `name;
-    `;
+    let csv: string = `description;`;
 
     for (let i in categories) {
       let category = categories[i];
-      csv += `${category.description};
-      `;
+      csv += `
+${category.description};`;
     }
 
     res.header("Content-type", "text/csv");
@@ -131,30 +130,30 @@ class CategoriesController {
 
       category[attribute] = data[attribute];
 
-      if (await this._checkIfCategoryExists(category.description.toLowerCase(), id)) {
-        throw new Error(`The category with name "${category.description}" already exists.`);
-      }
+      // if (await this._checkIfCategoryExists(category.description.toLowerCase(), id)) {
+      //   throw new Error(`The category with name "${category.description}" already exists.`);
+      // }
     }
 
     return category;
   }
 
-  _checkIfCategoryExists = async (description: string, id?: string) => {
-    const where: any =
-    {
-      description: description.toLowerCase(),
-    };
+  // _checkIfCategoryExists = async (description: string, id?: string) => {
+  //   const where: any =
+  //   {
+  //     description: description.toLowerCase(),
+  //   };
 
-    if (id) {
-      where.id = { [Op.ne]: id }; // WHERE id != id
-    }
+  //   if (id) {
+  //     where.id = { [Op.ne]: id }; // WHERE id != id
+  //   }
 
-    const count = await CategoryModel.count({
-      where: where
-    });
+  //   const count = await CategoryModel.count({
+  //     where: where
+  //   });
 
-    return count > 0;
-  }
+  //   return count > 0;
+  // }
 
 }
 

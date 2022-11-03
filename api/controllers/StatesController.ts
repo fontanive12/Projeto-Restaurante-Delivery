@@ -5,7 +5,6 @@ import LogModel from '../models/Log';
 import { Op } from 'sequelize';
 
 class StatesController {
-
   index = async (req: Request, res: Response, next: NextFunction) => {
     const states = await StateModel.findAll({});
     res.json(states);
@@ -55,22 +54,23 @@ class StatesController {
 
   csv = async (req: Request, res: Response, next: NextFunction) => {
     const states = await StateModel.findAll();
-    let csv: string = `name;province;
-    `;
+    let csv: string = `name;province;`;
 
     for (let i in states) {
       let state = states[i];
-      csv += `${state.name};${state.province}
-      `;
+      csv += `
+${state.name};${state.province}`;
     }
 
     res.header("Content-type", "text/csv");
-    res.header("Content-Disposition", "attachment; filename=usuarios.csv");
+    res.header("Content-Disposition", "attachment; filename=states.csv");
     res.header("Pragma", "attachment; no-cache");
     res.header("Expires", "0");
-
     res.send(csv);
   }
+
+
+
 
   create = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -146,7 +146,7 @@ class StatesController {
     const where: any =
     {
       name: name.toLowerCase(),
-      province: province .toLowerCase()     
+      province: province.toLowerCase()
     };
 
     if (id) {

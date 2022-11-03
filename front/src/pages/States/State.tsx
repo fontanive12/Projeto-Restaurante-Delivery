@@ -50,7 +50,7 @@ export function StateList() {
     ).then((response) => {
       const file = new Blob(
         [response.data],
-        { type: 'application/csv' });
+        { type: 'text/csv;charset=utf-8;' });
       const fileURL = URL.createObjectURL(file);
       window.open(fileURL);
     })

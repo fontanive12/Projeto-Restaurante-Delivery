@@ -1,4 +1,4 @@
-import { User, Atom, ForkKnife, Money, GlobeHemisphereEast, GlobeHemisphereWest, Hamburger, List, Equalizer } from "phosphor-react";
+import { User, Atom, ForkKnife, Money, GlobeHemisphereEast, GlobeHemisphereWest, Hamburger, List, Equalizer, Tag } from "phosphor-react";
 
 import {
   ContentContainer,
@@ -41,6 +41,11 @@ export function Menu() {
           <NavbarLink to="/products">
             <Hamburger size={32} />
             <p>Produtos</p>
+          </NavbarLink>
+
+          <NavbarLink to="/sales">
+            <Tag size={32} />
+            <p>Venda</p>
           </NavbarLink>
 
           {/* <NavbarLink to="/dashboards">

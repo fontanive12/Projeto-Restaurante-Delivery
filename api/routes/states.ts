@@ -9,7 +9,6 @@ const validateStateId = async (req: Request, res: Response, next: any) => {
     if (!state) {
         return res.status(404).json({ error: 'State not found' });
     }
-
     next();
 }
 

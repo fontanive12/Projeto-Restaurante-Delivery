@@ -56,7 +56,7 @@ export function Home() {
 
           <NavbarLink to="/payments">
             <NavbarItem>
-              <h2>Formas de <br />pagameno</h2>
+              <h2>Formas de <br />pagamento</h2>
               <Money size={40} />
             </NavbarItem>
           </NavbarLink>

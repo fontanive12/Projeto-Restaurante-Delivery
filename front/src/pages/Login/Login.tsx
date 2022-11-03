@@ -40,7 +40,7 @@ export function Login() {
     if (data.email === "fontanive12@gmail.com" && data.password === "12345") {
       navigate("/home");
     } else if (login){
-      navigate("/initialPage");   
+      navigate("/home");   
       // setErros( error("Invalid login"));
     } else {
       setErrorLogin("Login e/ou senha incorreto(s)");

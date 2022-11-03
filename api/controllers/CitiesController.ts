@@ -80,14 +80,13 @@ class CitiesController {
   csv = async (req: Request, res: Response, next: NextFunction) => {
     const cities = await CityModel.findAll();
     const states = await StateModel.findAll();
-    let csv: string = `cidade;estado;
-    `;
+    let csv: string = `cidade;estado;`;
 
     for (let i in cities) {
       let city = cities[i];
       let state = states[i];
-      csv += `${city.name};${state.name};
-      `;
+      csv += `
+${city.name};${state.name};`;
     }
 
     res.header("Content-type", "text/csv");

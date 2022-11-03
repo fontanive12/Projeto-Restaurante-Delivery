@@ -53,8 +53,7 @@ export function Card({ data }: CardProps) {
   return (
     <DivContainer>
       <ContentContainer>
-        <strong>{data.id}</strong>
-
+      <CardInfo title="Id" data={data.id} />
         <CardInfo title="Nome" data={data.name} />
         <CardInfo title="Estado" data={data.State?.name} />
 

@@ -50,6 +50,7 @@ const showDeleteSwal = (id: number) => {
   return (
     <DivContainer>
       <ContentContainer>
+      <CardInfo title="Id" data={data.id} />
         <CardInfo title="Nome" data={data.name} />
         <CardInfo title="Descrição" data={data.description} />
         <CardInfo title="Tamanho" data={data.size} />

@@ -4,20 +4,20 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { CategoryModal, Category } from "../../components/modais/Category/CategoryModal";
+import { CategoryModal, Category } from "../../components/modais/Sale/SaleModal";
 import { Menu } from "../../components/Menu/menu";
 import { MainContainer, Header2Container } from "../Users/User.styles";
 import { Button } from "../../components/Button/button";
 import { Card } from "../../components/CategoryCards/Card";
 import { Input } from "../../components/Input/input";
 
-export function CategoryList() {
+export function SaleList() {
   const MySwal = withReactContent(Swal);
   const [categoryList, setCategoryList] = useState<Category[]>([]);
   const [closeModal, setCloseModal] = useState(false);
 
   useEffect(() => {
-    axios.get<Category[]>("http://localhost:3000/categories").then((response) => {
+    axios.get<Category[]>("http://localhost:3000/sales").then((response) => {
       setCategoryList(response.data);
     });
   }, [closeModal]);
@@ -32,7 +32,7 @@ export function CategoryList() {
 
   const pdf = () => {
     axios.get(
-      'http://localhost:3000/categories/pdf',
+      'http://localhost:3000/sales/pdf',
       { responseType: 'blob' }
     ).then((response) => {
       const file = new Blob(
@@ -45,12 +45,12 @@ export function CategoryList() {
 
   const csv = () => {
     axios.get(
-      'http://localhost:3000/categories/csv',
+      'http://localhost:3000/sales/csv',
       { responseType: 'blob' }
     ).then((response) => {
       const file = new Blob(
         [response.data],
-        { type: 'text/csv;charset=utf-8;' });
+        { type: 'application/csv' });
       const fileURL = URL.createObjectURL(file);
       window.open(fileURL);
     })
@@ -63,9 +63,7 @@ export function CategoryList() {
       <Header label="Categorias" />
       <MainContainer>
         <Header2Container>
-          <Button width={150} height={40} label="Criar categoria" onClick={showSwal} />
-          <Button width={150} height={40} label="PDF" onClick={pdf} />
-          <Button width={150} height={40} label="CSV" onClick={csv} />
+          <div>oi</div>
 
         </Header2Container>
 

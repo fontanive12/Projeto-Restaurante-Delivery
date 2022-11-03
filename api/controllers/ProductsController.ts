@@ -47,16 +47,16 @@ class CitiesController extends BaseController {
         `<tr>
         <td>${product.name}</td>
         <td>${product.description}</td>
-        <td>${product.size}</td>
+        <td>${product.size}</td>  
         <td>${product.price}</td>
         <td>${category.description}</td>
-      </tr>`;
+        </tr>`;
+        console.log(category.description)
 
-      console.log(category.description)
     }
 
-    const html =
-      `<h1>Lista de usuários</h1>
+    const html = 
+      `<h1>Lista de produtos</h1>
     <table style="width:100%" border="1">
       <tr>
         <th>Nome</th>
@@ -89,18 +89,17 @@ class CitiesController extends BaseController {
   csv = async (req: Request, res: Response, next: NextFunction) => {
     const products = await ProductModel.findAll();
     const categories = await CategoryModel.findAll();
-    let csv: string = `name;description;size;price;category;
-    `;
+    let csv: string = `name;description;size;price;category;`;
 
     for (let i in products) {
       let product = products[i];
       let category = categories[i];
-      csv += `${product.name};${product.description};${product.size};${product.price}${category.description}
-      `;
+      csv += `
+${product.name};${product.description};${product.size};${product.price};${category.description}`;
     }
 
     res.header("Content-type", "text/csv");
-    res.header("Content-Disposition", "attachment; filename=usuarios.csv");
+    res.header("Content-Disposition", "attachment; filename=product.csv");
     res.header("Pragma", "attachment; no-cache");
     res.header("Expires", "0");
 
@@ -185,7 +184,7 @@ class CitiesController extends BaseController {
         where:
         {
           [Op.and]: [
-            { CategoryId: category },
+            // { CategoryId: category },
             { name: name }
           ]
         }

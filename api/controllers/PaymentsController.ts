@@ -53,13 +53,12 @@ class PaymentsController {
 
   csv = async (req: Request, res: Response, next: NextFunction) => {
     const payments = await PaymentsModel.findAll();
-    let csv: string = `forma de pagamento;
-    `;
+    let csv: string = `forma de pagamento;`;
 
     for (let i in payments) {
       let payment = payments[i];
-      csv += `${payment.form};
-      `;
+      csv += `
+${payment.form};`;
     }
 
     res.header("Content-type", "text/csv");
