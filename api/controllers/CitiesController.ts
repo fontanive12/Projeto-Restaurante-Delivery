@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import { Request, Response, NextFunction } from 'express';
+import pdf from 'html-pdf';
 import CityModel from '../models/City';
 import StateModel from '../models/State';
 import LogModel from '../models/Log';
@@ -28,6 +29,73 @@ class CitiesController {
       });
 
     res.json(cities);
+
+    console.log(StateModel.name)
+
+  }
+
+  pdf = async (req: Request, res: Response, next: NextFunction) => {
+    const cities = await CityModel.findAll();
+    const states = await StateModel.findAll();
+    let tBody: string = '';
+
+    for (let i in cities) {
+      let city = cities[i];
+      let state = states[i];
+      tBody +=
+        `<tr>
+        <td>${city.name}</td>
+        <td>${state.name}</td>
+      </tr>`;
+    }
+
+    const html =
+      `<h1>Lista de usuários</h1>
+    <table style="width:100%" border="1">
+      <tr>
+        <th>Nome</th>
+        <th>Estado</th>
+      </tr>
+      ${tBody}
+    </table>
+    `;
+
+    const options: pdf.CreateOptions = {
+      type: 'pdf',
+      format: 'A3',
+      orientation: 'portrait'
+    }
+
+    pdf.create(html, options).toBuffer((err: any, buffer: any) => {
+      res.header("Content-Disposition", "attachment;");
+      if (err) {
+        return res.status(500).json(err)
+      }
+
+
+      res.end(buffer)
+    })
+  }
+
+  csv = async (req: Request, res: Response, next: NextFunction) => {
+    const cities = await CityModel.findAll();
+    const states = await StateModel.findAll();
+    let csv: string = `cidade;estado;
+    `;
+
+    for (let i in cities) {
+      let city = cities[i];
+      let state = states[i];
+      csv += `${city.name};${state.name};
+      `;
+    }
+
+    res.header("Content-type", "text/csv");
+    res.header("Content-Disposition", "attachment; filename=usuarios.csv");
+    res.header("Pragma", "attachment; no-cache");
+    res.header("Expires", "0");
+
+    res.send(csv);
   }
 
   create = async (req: Request, res: Response, next: NextFunction) => {

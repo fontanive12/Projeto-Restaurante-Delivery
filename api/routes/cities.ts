@@ -13,6 +13,9 @@ const validateCityId = async (req: Request, res: Response, next: any) => {
     next();
 }
 
+routerCities.get('/cities/pdf', citiesController.pdf);
+routerCities.get('/cities/csv', citiesController.csv);
+
 routerCities.post('/cities', citiesController.create);
 routerCities.get('/cities', citiesController.index);
 routerCities.get('/cities/:cityId', validateCityId, citiesController.show);

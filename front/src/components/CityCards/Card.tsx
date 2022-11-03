@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { City, CityModal } from "../modais/City/CityModal";
 import { useNavigate } from "react-router-dom";
-import {showCityEditBox} from "../modais/City/CityModal";
+import { showCityEditBox } from "../modais/City/CityModal";
 import axios from "axios";
 
 interface CardProps {
@@ -39,10 +39,10 @@ export function Card({ data }: CardProps) {
         let router = 'states'
         axios.delete(`http://localhost:3000/cities/${id}`)
           .then((response) => {
-                window.location.reload()
-                // navigate("/categories")
+            window.location.reload()
+            // navigate("/categories")
           }, (error) => {
-            Swal.fire(`Error ao deletar estado: ${error.response.data.error} `);
+            Swal.fire(`Error ao deletar cidade: ${error.response.data.error} `);
           });
       };
     });

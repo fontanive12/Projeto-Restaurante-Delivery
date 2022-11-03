@@ -3,7 +3,7 @@ import db from '../db';
 
 class Category extends Model {
   declare id: number;
-  declare name: string;
+  declare description: string;
 };
 
 Category.init({

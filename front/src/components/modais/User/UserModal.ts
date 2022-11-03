@@ -98,9 +98,9 @@ async function handleCrateNewUser(data: User) {
       toast.success("Usuário Criado com sucesso");
       console.log(data)
       axios.get("http://localhost:3000/email/" + data["email"]);
+      location.reload();
     }
 
-    // closeModal();
   } catch (error) {
     toast.error("Erro ao criar usuário");
   }

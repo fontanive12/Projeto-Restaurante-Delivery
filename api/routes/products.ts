@@ -12,6 +12,8 @@ const validateProductId = async (req: Request, res: Response, next: any) => {
 
   next();
 }
+routerProducts.get('/products/pdf', productsController.pdf);
+routerProducts.get('/products/csv', productsController.csv);
 
 routerProducts.get('/products', productsController.index);
 routerProducts.post('/products', productsController.create);

@@ -29,18 +29,45 @@ export function PaymentList() {
     }).then(() => setCloseModal(true));
   };
 
+  const pdf = () => {
+    axios.get(
+      'http://localhost:3000/payments/pdf',
+      { responseType: 'blob' }
+    ).then((response) => {
+      const file = new Blob(
+        [response.data],
+        { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    })
+  }
+
+  const csv = () => {
+    axios.get(
+      'http://localhost:3000/payments/csv',
+      { responseType: 'blob' }
+    ).then((response) => {
+      const file = new Blob(
+        [response.data],
+        { type: 'application/csv' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    })
+  }
+
   return (
     <div>
       <Menu />
 
       <Header label="Categorias" />
 
-      <Header2Container>
-           <Button width={120} height={50} label="Criar forma de pagamento" onClick={showSwal} />
-        </Header2Container>
-
       <MainContainer>
-        <Button label="Criar forma de pagamento" onClick={showSwal} />
+      <Header2Container>
+        <Button width={150} height={50} label="Criar forma de pagamento" onClick={showSwal} />
+        <Button width={150} height={50} label="PDF" onClick={pdf} />
+        <Button width={150} height={50} label="CSV" onClick={csv} />
+      </Header2Container>
+
         {paymentList.map((payment) => {
           return <Card data={payment} />;
         })}

@@ -46,15 +46,28 @@ export function UserList() {
     })
   }
 
+  const csv = () => {
+    axios.get(
+      'http://localhost:3000/users/csv',
+      { responseType: 'blob' }
+    ).then((response) => {
+      const file = new Blob(
+        [response.data],
+        { type: 'application/csv' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    })
+  }
+
   return (
     <div>
       <Menu />
       <Header label="Usuários" />
       <MainContainer>
         <Header2Container>
-          <Button label="Criar Usuário" onClick={showSwal} />
-          <Button label="PDF" onClick={pdf} />
-          {/* <Button label="PDF" onClick={generateCsv} />/ */}
+          <Button width={150} height={40} label="Criar Usuário" onClick={showSwal} />
+          <Button width={150} height={40} label="PDF" onClick={pdf} />
+          <Button width={150} height={40} label="CSV" onClick={csv} />
         </Header2Container>
         {userList.map((user) => {
           return <Card data={user} />;

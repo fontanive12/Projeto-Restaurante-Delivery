@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import pdf from 'html-pdf';
 import CategoryModel from '../models/Category';
 import LogModel from '../models/Log';
 
@@ -7,6 +8,65 @@ class CategoriesController {
   index = async (req: Request, res: Response, next: NextFunction) => {
     const categories = await CategoryModel.findAll({});
     res.json(categories);
+  }
+
+  pdf = async (req: Request, res: Response, next: NextFunction) => {
+    const categories = await CategoryModel.findAll();
+    let tBody: string = '';
+    
+    for (let i in categories) {
+      let category = categories[i];
+
+      tBody +=
+        `<tr>
+        <td>${category.description}</td>
+      </tr>`;
+    }
+
+    const html =
+      `<h1>Lista de categorias</h1>
+    <table style="width:100%" border="1">
+      <tr>
+        <th>Nome</th>
+      </tr>
+      ${tBody}
+    </table>
+    `;
+
+    const options: pdf.CreateOptions = {
+      type: 'pdf',
+      format: 'A3',
+      orientation: 'portrait'
+    }
+
+    pdf.create(html, options).toBuffer((err: any, buffer: any) => {
+      res.header("Content-Disposition", "attachment;");
+      if (err) {
+        return res.status(500).json(err)
+      }
+
+
+      res.end(buffer)
+    })
+  }
+
+  csv = async (req: Request, res: Response, next: NextFunction) => {
+    const categories = await CategoryModel.findAll();
+    let csv: string = `name;
+    `;
+
+    for (let i in categories) {
+      let category = categories[i];
+      csv += `${category.description};
+      `;
+    }
+
+    res.header("Content-type", "text/csv");
+    res.header("Content-Disposition", "attachment; filename=usuarios.csv");
+    res.header("Pragma", "attachment; no-cache");
+    res.header("Expires", "0");
+
+    res.send(csv);
   }
 
   create = async (req: Request, res: Response, next: NextFunction) => {

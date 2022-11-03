@@ -24,6 +24,30 @@ export function Card({ data }: CardProps) {
       html: <StateModal closeModal={MySwal.close} stateData={data} />,
       showConfirmButton: false,
     }).then(() => window.location.reload());
+
+    // const table = `
+    // <h4>Cidades
+    //   <button type="button"
+    //     class="btn btn-secondary"
+    //     style="float: right"
+    //     onclick="showCityCreateBox(${id})">Create city
+    //   </button>
+    // </h4>
+    // <div class="table-responsive">
+    //   <table class="table">
+    //     <thead>
+    //       <tr>
+    //         <th>Código</th>
+    //         <th>Nome</th>
+    //         <th>Ações</th>
+    //       </tr>
+    //     </thead>
+    //     <tbody>
+    //       ${trHTML}
+    //     </tbody>
+    //   </table>
+    // </div>
+    // `;
   };
 
   const showDeleteSwal = (id: number) => {
@@ -41,8 +65,8 @@ export function Card({ data }: CardProps) {
         let router = 'states'
         axios.delete(`http://localhost:3000/states/${id}`)
           .then((response) => {
-                window.location.reload()
-                // navigate("/categories")
+            window.location.reload()
+            // navigate("/categories")
           }, (error) => {
             Swal.fire(`Error ao deletar estado: ${error.response.data.error} `);
           });
@@ -66,6 +90,9 @@ export function Card({ data }: CardProps) {
           {<Trash size={32} />}
         </Delete>
       </ContentContainer>
+
+
+      
     </DivContainer>
   );
 }

@@ -8,8 +8,9 @@ import UserModel from '../models/User';
 import LogModel from '../models/Log';
 import BaseController from './BaseController';
 import CityModel from '../models/City';
+import { Article } from 'phosphor-react';
 
-class UsersController  {
+class UsersController {
 
   index = async (req: Request, res: Response) => {
     const params = req.query;
@@ -67,18 +68,25 @@ class UsersController  {
     res.json(users);
   }
 
+
   pdf = async (req: Request, res: Response, next: NextFunction) => {
     const users = await UserModel.findAll();
+    const cities = await CityModel.findAll();
+    
     let tBody: string = '';
-
+    
     for (let i in users) {
       let user = users[i];
+      let city = cities[i];
+
       tBody +=
         `<tr>
         <td>${user.name}</td>
         <td>${user.age}</td>
         <td>${user.sex}</td>
+        <td>${user.phoneNumber}</td>
         <td>${user.email}</td>
+        <td>${city.name}</td>
       </tr>`;
     }
 
@@ -86,10 +94,12 @@ class UsersController  {
       `<h1>Lista de usuários</h1>
     <table style="width:100%" border="1">
       <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Sex</th>
+        <th>Nome</th>
+        <th>Idade</th>
+        <th>Gênero</th>
+        <th>Telefone</th>
         <th>Email</th>
+        <th>Cidade</th>
       </tr>
       ${tBody}
     </table>
@@ -97,7 +107,7 @@ class UsersController  {
 
     const options: pdf.CreateOptions = {
       type: 'pdf',
-      format: 'A4',
+      format: 'A3',
       orientation: 'portrait'
     }
 
@@ -112,27 +122,26 @@ class UsersController  {
     })
   }
 
+  csv = async (req: Request, res: Response, next: NextFunction) => {
+    const users = await UserModel.findAll();
+    const cities = await CityModel.findAll();
+    let csv: string = `name;age;sex;email;cidade;
+    `;
 
+    for (let i in users) {
+      let user = users[i];
+      let city = cities[i];
+      csv += `${user.name};${user.age};${user.sex};${user.phoneNumber}${user.email}${city.name}
+      `;
+    }
 
+    res.header("Content-type", "text/csv");
+    res.header("Content-Disposition", "attachment; filename=usuarios.csv");
+    res.header("Pragma", "attachment; no-cache");
+    res.header("Expires", "0");
 
-  // csv = async (req: Request, res: Response, next: NextFunction) => {
-  //   const users = await UserModel.findAll();
-  //   let csv: string = `name;age;sex;email
-  //   `;
-
-  //   for (let i in users) {
-  //     let user = users[i];
-  //     csv += `${user.name};${user.age};${user.sex};${user.email}
-  //     `;
-  //   }
-
-  //   res.header("Content-type", "text/csv");
-  //   res.header("Content-Disposition", "attachment; filename=usuarios.csv");
-  //   res.header("Pragma", "attachment; no-cache");
-  //   res.header("Expires", "0");
-
-  //   res.send(csv);
-  // }
+    res.send(csv);
+  }
 
   create = async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.body)

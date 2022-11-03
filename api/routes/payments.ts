@@ -11,7 +11,11 @@ const validatePaymentId = async (req: Request, res: Response, next: any) => {
     }
 
     next();
+
 }
+
+routerPayments.get('/payments/pdf', paymentsController.pdf);
+routerPayments.get('/payments/csv', paymentsController.csv);
 
 routerPayments.post('/payments', paymentsController.create);
 routerPayments.get('/payments', paymentsController.index);

@@ -30,6 +30,31 @@ export function CityList() {
     showCityCreateBox()
   }
 
+  const pdf = () => {
+    axios.get(
+      'http://localhost:3000/cities/pdf',
+      { responseType: 'blob' }
+    ).then((response) => {
+      const file = new Blob(
+        [response.data],
+        { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    })
+  }
+
+  const csv = () => {
+    axios.get(
+      'http://localhost:3000/cities/csv',
+      { responseType: 'blob' }
+    ).then((response) => {
+      const file = new Blob(
+        [response.data],
+        { type: 'application/csv' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    })
+  }
   return (
     <div>
       <Menu />
@@ -38,11 +63,9 @@ export function CityList() {
 
       <MainContainer>
         <Header2Container>
-
-          {/* <Input width={150} height={50} label={"Digite aqui"} id={"1"} errorMessage={"undefined"}/> */}
-
-          <Button width={120} height={50} label="Criar cidade" onClick={showSwal} />
-
+          <Button width={150} height={40} label="Criar cidade" onClick={showSwal} />
+          <Button width={150} height={40} label="PDF" onClick={pdf} />
+          <Button width={150} height={40} label="CSV" onClick={csv} />
         </Header2Container>
         {stateList.map((city) => {
           return <Card data={city} />;

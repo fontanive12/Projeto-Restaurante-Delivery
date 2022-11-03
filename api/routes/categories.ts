@@ -13,6 +13,8 @@ const validateStateId = async (req: Request, res: Response, next: any) => {
     next();
 }
 
+routerCategories.get('/categories/pdf', categoriesController.pdf);
+routerCategories.get('/categories/csv', categoriesController.csv);
 routerCategories.post('/categories', categoriesController.create);
 routerCategories.get('/categories', categoriesController.index);
 routerCategories.get('/categories/:categoryId', validateStateId, categoriesController.show);

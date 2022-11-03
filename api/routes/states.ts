@@ -13,6 +13,8 @@ const validateStateId = async (req: Request, res: Response, next: any) => {
     next();
 }
 
+routerStates.get('/states/pdf', statesController.pdf);
+routerStates.get('/states/csv', statesController.csv);
 routerStates.post('/states', statesController.create);
 routerStates.get('/states', statesController.index);
 routerStates.get('/states/:stateId', validateStateId, statesController.show);

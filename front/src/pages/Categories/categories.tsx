@@ -30,53 +30,46 @@ export function CategoryList() {
     }).then(() => setCloseModal(true));
   };
 
+  const pdf = () => {
+    axios.get(
+      'http://localhost:3000/categories/pdf',
+      { responseType: 'blob' }
+    ).then((response) => {
+      const file = new Blob(
+        [response.data],
+        { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    })
+  }
 
-  // const names: any = ["teste", "teste2"]
-
-  // const [search, setSearch] = useState('');
-
-  
-
-  // const lowerSearch = search.toLowerCase();
-
-  // const filterNames = names
-  //   .filter((name: any) => name.toLowerCase().includes(lowerSearch));
+  const csv = () => {
+    axios.get(
+      'http://localhost:3000/categories/csv',
+      { responseType: 'blob' }
+    ).then((response) => {
+      const file = new Blob(
+        [response.data],
+        { type: 'application/csv' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    })
+  }
 
   return (
     <div>
       <Menu />
 
       <Header label="Categorias" />
-
-      <Header2Container>
-        <Button width={120} height={50} label="Criar estado" onClick={showSwal} />
-
-        {/* <input type="text" value={search} onChange={(ev) => setSearch(ev.target.value)} />
-        <ul>
-          {names.map((name:any) => (
-            <li key={name}>{name}</li>
-          ))}
-        </ul> */}
-
-
-
-        {/* <Input width={150} height={50} label={"Digite aqui"} id={"2"} errorMessage={"undefined"}/> */}
-
-        {/* <Button width={120} height={50} label="Gerar PDF" onClick={() => ({})} /> */}
-        {/* <Input
-              width={350} //define o tamanho
-              height={72}
-              label="Email"
-              id="email"
-              placeholder="Digite seu email"
-              errorMessage={"erro"}
-            /> */}
-
-
-      </Header2Container>
-
       <MainContainer>
-        <Button label="Criar categoria" onClick={showSwal} />
+        <Header2Container>
+          <Button width={150} height={40} label="Criar categoria" onClick={showSwal} />
+          <Button width={150} height={40} label="PDF" onClick={pdf} />
+          <Button width={150} height={40} label="CSV" onClick={csv} />
+
+        </Header2Container>
+
+
         {categoryList.map((category) => {
           return <Card data={category} />;
         })}

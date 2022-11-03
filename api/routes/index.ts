@@ -17,12 +17,6 @@ const authentication = async (req: Request, res: Response, next: NextFunction) =
     try {
         let authorization = req.headers.authorization as string;
 
-        if (req.path === "/users/pdf") {
-            next();
-        }
-        
-        console.log("--------------REQ: " + req.path);
-        
         if (!authorization || authorization.indexOf('Basic ') === -1) {
             return res.status(401).json({ message: 'Missing Authorization Header' });
         }

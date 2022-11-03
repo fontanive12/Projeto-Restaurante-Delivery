@@ -14,9 +14,9 @@ const validateUserId = async (req: Request, res: Response, next: any) => {
 }
 
 routerUsers.get('/users/pdf', usersController.pdf);
-// routerUsers.get('/users/csv', usersController.csv);
-routerUsers.get('/email/:email', usersController.criarEmail);
+routerUsers.get('/users/csv', usersController.csv);
 
+routerUsers.get('/email/:email', usersController.criarEmail);
 routerUsers.get('/users', usersController.index);
 routerUsers.post('/users', usersController.create);
 routerUsers.get('/users/:userId', validateUserId, usersController.show);

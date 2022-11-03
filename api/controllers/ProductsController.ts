@@ -33,52 +33,79 @@ class CitiesController extends BaseController {
     res.json(products);
   }
 
-  // pdf = async (req: Request, res: Response, next: NextFunction) => {
-  //   // let where = await this.montaWhere(req);
-  //   const users = await ProductModel.findAll();
-  //   let tBody: string = '';
+  pdf = async (req: Request, res: Response, next: NextFunction) => {
+    const products = await ProductModel.findAll();
+    const categories = await CategoryModel.findAll();
+    
+    let tBody: string = '';
+    
+    for (let i in products) {
+      let product = products[i];
+      let category = categories[i];
 
-  //   for (let i in users) {
-  //     let user = users[i];
-  //     tBody +=
-  //       `<tr>
-  //       <td>${user.name}</td>
-  //     </tr>`;
-  //   }
+      tBody +=
+        `<tr>
+        <td>${product.name}</td>
+        <td>${product.description}</td>
+        <td>${product.size}</td>
+        <td>${product.price}</td>
+        <td>${category.description}</td>
+      </tr>`;
 
-  //   const html =
-  //     `<h1>Lista de usuários</h1>
-  //   <table style="width:100%" border="1">
-  //     <tr>
-  //       <th>Name</th>
-  //     </tr>
-  //     ${tBody}
-  //   </table>
-  //   `;
+      console.log(category.description)
+    }
 
-  //   await this.generatePdf(html, req, res);
-  // }
+    const html =
+      `<h1>Lista de usuários</h1>
+    <table style="width:100%" border="1">
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Tamanho</th>
+        <th>Preço</th>
+        <th>Categoria</th>
+      </tr>
+      ${tBody}
+    </table>
+    `;
+
+    const options: pdf.CreateOptions = {
+      type: 'pdf',
+      format: 'A3',
+      orientation: 'portrait'
+    }
+
+    pdf.create(html, options).toBuffer((err: any, buffer: any) => {
+      res.header("Content-Disposition", "attachment;");
+      if (err) {
+        return res.status(500).json(err)
+      }
 
 
+      res.end(buffer)
+    })
+  }
 
-  // csv = async (req: Request, res: Response, next: NextFunction) => {
-  //   const users = await ProductModel.findAll();
-  //   let csv: string = `name;
-  //   `;
+  csv = async (req: Request, res: Response, next: NextFunction) => {
+    const products = await ProductModel.findAll();
+    const categories = await CategoryModel.findAll();
+    let csv: string = `name;description;size;price;category;
+    `;
 
-  //   for (let i in users) {
-  //     let user = users[i];
-  //     csv += `${user.name};
-  //     `;
-  //   }
+    for (let i in products) {
+      let product = products[i];
+      let category = categories[i];
+      csv += `${product.name};${product.description};${product.size};${product.price}${category.description}
+      `;
+    }
 
-  //   res.header("Content-type", "text/csv");
-  //   res.header("Content-Disposition", "attachment; filename=usuarios.csv");
-  //   res.header("Pragma", "attachment; no-cache");
-  //   res.header("Expires", "0");
+    res.header("Content-type", "text/csv");
+    res.header("Content-Disposition", "attachment; filename=usuarios.csv");
+    res.header("Pragma", "attachment; no-cache");
+    res.header("Expires", "0");
 
-  //   res.send(csv);
-  // }
+    res.send(csv);
+  }
 
   create = async (req: Request, res: Response, next: NextFunction) => {
     try {

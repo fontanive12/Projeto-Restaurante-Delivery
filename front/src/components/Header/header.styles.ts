@@ -37,7 +37,7 @@ align-items: center;
 export const UserContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 20rem;
+  width: 15rem;
   /* margin-top: 1.6875rem; */
   gap: 40px;
   text-align: center;

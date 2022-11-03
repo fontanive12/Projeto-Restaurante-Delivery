@@ -14,15 +14,38 @@ import axios from "axios";
 interface CardProps {
   data: Product;
 }
-
 export function Card({ data }: CardProps) {
   const navigate = useNavigate();
   const MySwal = withReactContent(Swal);
   console.log(data)
 
-  const purchase = () => {
-    showProductEditBox(data);
-  };
+const showSwal = () => {
+  showProductEditBox(data);
+};
+
+const showDeleteSwal = (id: number) => {
+  Swal.fire({
+    title: 'Tem certeza?',
+    text: "Você não será capaz de reverte isto!",
+    icon: "warning",
+    confirmButtonColor: '#4476a4',
+    confirmButtonText: 'Deletar',
+    showCancelButton: true,
+    cancelButtonColor: '#c5bbbb',
+    cancelButtonText: 'Cancelar'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      let router = 'states'
+      axios.delete(`http://localhost:3000/products/${id}`)
+        .then((response) => {
+              window.location.reload()
+              // navigate("/categories")
+        }, (error) => {
+          Swal.fire(`Error ao deletar produto: ${error.response.data.error} `);
+        });
+    };
+  });
+};
 
   return (
     <DivContainer>
@@ -33,9 +56,13 @@ export function Card({ data }: CardProps) {
         <CardInfo title="Preço" data={data.name} />
         {/* <CardInfo title="Categoria" data={data.Category?.description} /> */}
 
-        <Edit title="Comprar" onClick={purchase}>
-          Comprar
+        <Edit title="Editar" onClick={showSwal}>
+          {<Pencil size={32} />}
         </Edit>
+
+        <Delete title="Deletar" onClick={() => showDeleteSwal(data.id)}>
+          {<Trash size={32} />}
+        </Delete>
       </ContentContainer>
     </DivContainer>
   );

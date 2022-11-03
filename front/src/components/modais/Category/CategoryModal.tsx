@@ -63,6 +63,7 @@ export function CategoryModal({ closeModal, categoryData }: CategoryModalProps) 
         });
 
         toast.success("Categoria criada com sucesso");
+        location.reload();
       }
 
       closeModal();

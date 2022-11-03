@@ -29,11 +29,32 @@ export function ProductList() {
     showProductCreateBox()
   }
 
-  const generatePdf = () => {
-    window.open(`${ENDPOINT}/products/pdf`);
+
+
+  const pdf = () => {
+    axios.get(
+      'http://localhost:3000/products/pdf',
+      { responseType: 'blob' }
+    ).then((response) => {
+      const file = new Blob(
+        [response.data],
+        { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    })
   }
-  const generateCsv = () => {
-    window.open(`${ENDPOINT}/products/csv`);
+
+  const csv = () => {
+    axios.get(
+      'http://localhost:3000/products/csv',
+      { responseType: 'blob' }
+    ).then((response) => {
+      const file = new Blob(
+        [response.data],
+        { type: 'application/csv' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    })
   }
 
   return (
@@ -44,13 +65,9 @@ export function ProductList() {
 
       <MainContainer>
         <Header2Container>
-
-          {/* <Input width={150} height={50} label={"Digite aqui"} id={"1"} errorMessage={"undefined"}/> */}
-
-          <Button width={120} height={50} label="Criar produto" onClick={showSwal} />
-
-          <Button label="PDF" onClick={generatePdf} />
-          <Button label="PDF" onClick={generateCsv} />
+          <Button width={150} height={40} label="Criar produto" onClick={showSwal} />
+          <Button width={150} height={40} label="PDF" onClick={pdf} />
+          <Button width={150} height={40} label="CSV" onClick={csv} />
 
         </Header2Container>
         {stateList.map((product) => {

@@ -30,7 +30,7 @@ export function Header({ label }: SidebarProps) {
             <User size={32} />
             <strong>{user?.name}</strong>
           </UserData>
-          <ShoppingCartSimple size={32} />
+          {/* <ShoppingCartSimple size={32} /> */}
 
 
           {/* <a href="../pages/Shop/shop">

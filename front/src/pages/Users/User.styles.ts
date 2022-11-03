@@ -12,8 +12,9 @@ export const MainContainer = styled.div`
 
 export const Header2Container = styled.div`
   display: flex;  
-  margin-right: -1250px;
+  /* margin-right: -1250px; */
   align-items: flex-end;
+  gap: 1rem
 
   
 `
