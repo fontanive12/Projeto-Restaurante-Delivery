@@ -51,10 +51,10 @@ const showDeleteSwal = (id: number) => {
     <DivContainer>
       <ContentContainer>
         <CardInfo title="Nome" data={data.name} />
-        <CardInfo title="Descrição" data={data.name} />
-        <CardInfo title="Tamanho" data={data.name} />
-        <CardInfo title="Preço" data={data.name} />
-        {/* <CardInfo title="Categoria" data={data.Category?.description} /> */}
+        <CardInfo title="Descrição" data={data.description} />
+        <CardInfo title="Tamanho" data={data.size} />
+        <CardInfo title="Preço" data={data.price} />
+        <CardInfo title="Categoria" data={data.Category?.description} />
 
         <Edit title="Editar" onClick={showSwal}>
           {<Pencil size={32} />}

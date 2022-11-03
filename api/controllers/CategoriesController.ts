@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import pdf from 'html-pdf';
+import { Op } from 'sequelize';
 import CategoryModel from '../models/Category';
 import LogModel from '../models/Log';
 
@@ -119,7 +120,7 @@ class CategoriesController {
     res.json({});
   }
 
-  _validateData = async (data: any) => {
+  _validateData = async (data: any, id?: string) => {
     const attributes = ['description'];
     const category: any = {};
 
@@ -129,9 +130,30 @@ class CategoriesController {
       }
 
       category[attribute] = data[attribute];
+
+      if (await this._checkIfCategoryExists(category.description.toLowerCase(), id)) {
+        throw new Error(`The category with name "${category.description}" already exists.`);
+      }
     }
 
     return category;
+  }
+
+  _checkIfCategoryExists = async (description: string, id?: string) => {
+    const where: any =
+    {
+      description: description.toLowerCase(),
+    };
+
+    if (id) {
+      where.id = { [Op.ne]: id }; // WHERE id != id
+    }
+
+    const count = await CategoryModel.count({
+      where: where
+    });
+
+    return count > 0;
   }
 
 }

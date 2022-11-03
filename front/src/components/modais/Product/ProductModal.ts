@@ -19,7 +19,7 @@ interface ProductModalProps {
 
 const newStateValidationSchema = zod.object({
   name: zod.string().min(1, "Informe um nome válido"),
-  // CategoryId: zod.string().min(2, "Informe uma província válida"),
+  // CategoryId: zod.string().min(2, "Informe uma categ válida"),
 });
 
 export type Product = {
@@ -95,7 +95,7 @@ const getCategories = async () => {
 const createCategoriesCombo = async (id?: number) => {
   const cities = await getCategories();
   const data = cities.data;
-  var select = `<option value="0" selected>Selecione</option>`;
+  var select = `<option value="0" selected>Selecione uma categoria</option>`;
   data.forEach((element: any) => {
     console.log(id)
     if (id === element.id) {

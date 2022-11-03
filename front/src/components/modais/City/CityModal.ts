@@ -87,7 +87,7 @@ const getStates = async () => {
 const createStatesCombo = async (id?: number) => {
   const cities = await getStates();
   const data = cities.data;
-  var select = '';
+  var select = `<option value="0" selected>Selecione um estado</option>`;
   data.forEach((element: any) => {
     console.log(id)
     if (id === element.id) {

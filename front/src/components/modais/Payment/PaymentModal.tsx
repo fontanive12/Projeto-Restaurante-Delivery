@@ -17,7 +17,7 @@ interface PaymentModalProps {
 }
 
 const newCategoryValidationSchema = zod.object({
-  form: zod.string().min(1, "Informe uma forma de pagamento válida"),
+  form: zod.string().min(3, "Informe uma forma de pagamento válida"),
 });
 
 export type Payment = {

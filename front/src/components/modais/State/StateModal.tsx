@@ -17,7 +17,7 @@ interface StateModalProps {
 }
 
 const newStateValidationSchema = zod.object({
-  name: zod.string().min(1, "Informe um nome válido"),
+  name: zod.string().min(4, "Informe um nome válido"),
   province: zod.string().min(2, "Informe uma província válida"),
 });
 

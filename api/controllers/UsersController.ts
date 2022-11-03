@@ -192,14 +192,6 @@ class UsersController {
         console.log('E-mail enviado: ' + info.response);
       }
     })
-
-    // pdf.create(html, options).toBuffer((err, buffer) => {
-
-    //   if (err) {
-    //     return res.status(500).json(err);
-    //   }
-    //   res.end(buffer)
-    // })
   };
 
   show = async (req: Request, res: Response, next: NextFunction) => {
@@ -249,8 +241,6 @@ class UsersController {
 
       console.log(data[attribute]);
       user[attribute] = data[attribute];
-
-      console.log("----cidade:" + data.CityId);
     }
 
     if (await this._checkIfEmailExists(user.email, id)) {

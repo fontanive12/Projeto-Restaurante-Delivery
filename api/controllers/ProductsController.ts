@@ -172,14 +172,14 @@ class CitiesController extends BaseController {
       product[attribute] = data[attribute];
     }
 
-    if (await this._checkIfCityAndStateExists(product.name, product.CategoryId)) {
+    if (await this._checkIfProductAndCategoryExists(product.name.toLowerCase(), product.CategoryId)) {
       throw new Error(`The product in the Category "${product.CategoryId}" already exists.`);
     }
 
     return product;
   }
 
-  _checkIfCityAndStateExists = async (name: string, category: string) => {
+  _checkIfProductAndCategoryExists = async (name: string, category: string) => {
     const products = await ProductModel.count(
       {
         where:
@@ -197,12 +197,3 @@ class CitiesController extends BaseController {
 }
 
 export default new CitiesController();
-
-
-// {
-//   "name": "xis salada",
-//   "description": "cheio de delicias",
-//   "size": "grande",
-//   "price": 20,
-//   "CategoryId": "oi"
-// }

@@ -43,10 +43,10 @@ export function Menu() {
             <p>Produtos</p>
           </NavbarLink>
 
-          <NavbarLink to="/dashboards">
+          {/* <NavbarLink to="/dashboards">
           <Equalizer size={32} />
             <p>Dashboard</p>
-          </NavbarLink>
+          </NavbarLink> */}
 
         </NavLinkContainer>
       </ContentContainer>

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import pdf from 'html-pdf';
 import StateModel from '../models/State';
 import LogModel from '../models/Log';
+import { Op } from 'sequelize';
 
 class StatesController {
 
@@ -13,7 +14,7 @@ class StatesController {
   pdf = async (req: Request, res: Response, next: NextFunction) => {
     const states = await StateModel.findAll();
     let tBody: string = '';
-    
+
     for (let i in states) {
       let state = states[i];
 
@@ -122,7 +123,7 @@ class StatesController {
     res.json({});
   }
 
-  _validateData = async (data: any) => {
+  _validateData = async (data: any, id?: any) => {
     const attributes = ['name', 'province'];
     const state: any = {};
 
@@ -132,9 +133,31 @@ class StatesController {
       }
 
       state[attribute] = data[attribute];
+
+      if (await this._checkIfStateExists(state.name.toLowerCase(), id)) {
+        throw new Error(`The state with name "${state.name}" already exists.`);
+      }
     }
 
     return state;
+  }
+
+  _checkIfStateExists = async (name: string, province: string, id?: string) => {
+    const where: any =
+    {
+      name: name.toLowerCase(),
+      province: province .toLowerCase()     
+    };
+
+    if (id) {
+      where.id = { [Op.ne]: id }; // WHERE id != id
+    }
+
+    const count = await StateModel.count({
+      where: where
+    });
+
+    return count > 0;
   }
 
 }

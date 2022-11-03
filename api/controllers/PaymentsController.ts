@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import pdf from 'html-pdf';
 import PaymentsModel from '../models/Payment';
 import LogModel from '../models/Log';
+import { Op } from 'sequelize';
 
 class PaymentsController {
 
@@ -119,7 +120,7 @@ class PaymentsController {
     res.json({});
   }
 
-  _validateData = async (data: any) => {
+  _validateData = async (data: any, id?: any) => {
     const attributes = ['form'];
     const payment: any = {};
 
@@ -129,9 +130,30 @@ class PaymentsController {
       }
 
       payment[attribute] = data[attribute];
+
+      if (await this._checkIfPaymentExists(payment.form.toLowerCase(), id)) {
+        throw new Error(`The payment form with name "${payment.form}" already exists.`);
+      }
     }
 
     return payment;
+  }
+
+  _checkIfPaymentExists = async (form: string, id?: string) => {
+    const where: any =
+    {
+      form: form.toLowerCase()
+    };
+
+    if (id) {
+      where.id = { [Op.ne]: id }; // WHERE id != id
+    }
+
+    const count = await PaymentsModel.count({
+      where: where
+    });
+
+    return count > 0;
   }
 
 }
